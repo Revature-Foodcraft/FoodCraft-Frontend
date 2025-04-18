@@ -33,9 +33,7 @@ const DisplayRecipe: React.FC<SearchProp> = ({searchQuery})=>{
             });
 
             const dbRecipes = await dbRes.json()
-            console.log(dbRecipes.recipes)
             if(dbRecipes.recipes.length <= 0){
-                console.log("here")
                 getRecipesFromAPI()
             }else{
                 setRecipes(dbRecipes.recipes);
@@ -70,7 +68,6 @@ const DisplayRecipe: React.FC<SearchProp> = ({searchQuery})=>{
             const response = await data.json()
 
             const apiRecipes:any = []
-            console.log(response)
             response.meals.forEach( (meal:any)  => {
                 apiRecipes.push({
                     PK: meal.idMeal,
@@ -88,7 +85,6 @@ const DisplayRecipe: React.FC<SearchProp> = ({searchQuery})=>{
 
     }
     useEffect(()=>{
-        console.log("call from cuisine effect")
         getRecipes()
     },[selectedCuisine,mealCategory])
 
@@ -96,7 +92,6 @@ const DisplayRecipe: React.FC<SearchProp> = ({searchQuery})=>{
         hasSearched.current = false
         if(!searchQuery){
             getRecipes()
-            console.log("call from search")
             hasSearched.current = true
         }
     },[searchQuery])

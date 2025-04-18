@@ -3,12 +3,10 @@ import '../css/Header.css';
 import LoginRegisterPopup from './LoginRegisterPopup';
 import { Link } from "react-router-dom";
 import { AuthContext, DisplayContext } from './Contexts';
-import DisplayRecipe from '../Components/Homepage/DisplayRecipes'; // Import your DisplayRecipe component
-import CuisineSelect from './Homepage/CuisineSelect';
-import MealCategorySelect from './Homepage/MealCategorySelect';
+import DisplayRecipe from './SearchFeature/DisplayRecipes';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SearchDropdownTabs from './Homepage/SearchDropdownTabs';
-import SortByDropdown from './Homepage/SortByDropdown';
+import SearchDropdownTabs from './SearchFeature/SearchDropdownTabs';
+import SortByDropdown from './SearchFeature/SortByDropdown';
 
 
 const Header: React.FC = () => {
