@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { DisplayContext } from "../Contexts";
-import filterIcon from "../../src/assets/filter-circle.svg"
+import filterIcon from "../../assets/filter-circle.svg"
 
 const SortByDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
