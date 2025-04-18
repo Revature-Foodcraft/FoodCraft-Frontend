@@ -7,18 +7,18 @@ import DisplayRecipe from './SearchFeature/DisplayRecipes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchDropdownTabs from './SearchFeature/SearchDropdownTabs';
 import SortByDropdown from './SearchFeature/SortByDropdown';
-
+import logoPic from "../assets/logo.svg";
 
 const Header: React.FC = () => {
     const { isLoggedIn, setLogInStatus } = useContext(AuthContext);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
     const [showCuisineTab, setShowCuisineTab] = useState(false);
-    
-    const [mealCategory,setMealCategorySelect] = useState("")
-    const [selectedCuisine,setSelectedCuisine] = useState("")
-    const [invert,setInvert] = useState(false)
-    const [sortBy,setSortBy] = useState("Recently Added")
+
+    const [mealCategory, setMealCategorySelect] = useState("")
+    const [selectedCuisine, setSelectedCuisine] = useState("")
+    const [invert, setInvert] = useState(false)
+    const [sortBy, setSortBy] = useState("Recently Added")
 
     const toggleDropdown = () => {
         setIsDropdownOpen(prevState => !prevState); // Toggle dropdown visibility
@@ -29,14 +29,14 @@ const Header: React.FC = () => {
     };
     const toggleCuisineTab = () => {
         setShowCuisineTab(prev => !prev);
-        
+
     };
 
     return (
         <div className='wrapper'>
             <header>
                 <div className='titleAndLogoWrapper'>
-                    <img src="./src/assets/logo.svg" alt="FoodCraft Logo" />
+                    <img src={logoPic} alt="FoodCraft Logo" />
                     <h1>FoodCraft</h1>
                 </div>
                 <nav>
@@ -49,25 +49,25 @@ const Header: React.FC = () => {
                         <li>
                             <button onClick={toggleDropdown}>Search</button>
                             {isDropdownOpen && (
-                            <div className="dropdownMenu">
-                                <DisplayContext.Provider value={{mealCategory,setMealCategorySelect,selectedCuisine,setSelectedCuisine,invert,setInvert, sortBy,setSortBy}}>
-                                <button className="cuisineButton btn btn-warning mb-3" onClick={toggleCuisineTab}>
-                                     Cuisine Filter
-                                </button>
-                                {showCuisineTab && (
-                                    <SearchDropdownTabs/>
-                                )}
-                                <input
-                                    type="text"
-                                    placeholder="Search for recipes..."
-                                    onChange={handleSearchChange}
-                                />
-                                <SortByDropdown/>
-                                <DisplayRecipe searchQuery={searchQuery} />
-                                
-                                </DisplayContext.Provider>
-                            </div>
-                        )}     
+                                <div className="dropdownMenu">
+                                    <DisplayContext.Provider value={{ mealCategory, setMealCategorySelect, selectedCuisine, setSelectedCuisine, invert, setInvert, sortBy, setSortBy }}>
+                                        <button className="cuisineButton btn btn-warning mb-3" onClick={toggleCuisineTab}>
+                                            Cuisine Filter
+                                        </button>
+                                        {showCuisineTab && (
+                                            <SearchDropdownTabs />
+                                        )}
+                                        <input
+                                            type="text"
+                                            placeholder="Search for recipes..."
+                                            onChange={handleSearchChange}
+                                        />
+                                        <SortByDropdown />
+                                        <DisplayRecipe searchQuery={searchQuery} />
+
+                                    </DisplayContext.Provider>
+                                </div>
+                            )}
                         </li>
                         {isLoggedIn ? (
                             <>
