@@ -1,6 +1,7 @@
 // src/Components/ReviewCard.tsx
 import React from "react";
 import StarRating from "./StarRating";
+import "../css/Reviews.css"
 
 export interface Review {
   reviewId: string;

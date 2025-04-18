@@ -9,7 +9,6 @@ import Header from './Components/Header';
 import Profile from './pages/Profile';
 import Recipe from './pages/Recipe';
 import SaveRecipe from './pages/saveRecipe';
-import Reviews from './pages/Reviews'
 import { AuthContext } from './Components/Contexts';
 import { ProtectedRoute } from './Components/ProtectedRoutes';
 
@@ -41,7 +40,6 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/recipes" element={<Recipe />} />
-          <Route path="/recipes/reviews" element={<Reviews />}/>
           <Route path="/account" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Account/></ProtectedRoute>}>
             <Route path="saveRecipe" element={<SaveRecipe />} />
           </Route>
