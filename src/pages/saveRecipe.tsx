@@ -5,7 +5,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const CreateRecipe: React.FC = () => {
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
     const [ingredients, setIngredients] = useState([{ name: '', quantity: '', unit: '' }]);
     const [macros, setMacros] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
     const [instructions, setInstructions] = useState(['']);
@@ -19,11 +18,11 @@ const CreateRecipe: React.FC = () => {
     const quantityOptions = [
         '1/8', '1/4', '1/3', '1/2', '2/3', '3/4', '1', '2', '3', '4', '5', 'a pinch', 'to taste'
     ];
-    
+
     const unitOptions = [
         'tsp', 'tbsp', 'cup', 'oz', 'lb', 'gram(s)', 'kg', 'ml', 'liter', 'quart', 'pinch', 'clove(s)', 'slice(s)', 'piece(s)', 'can', 'bottle'
     ];
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,15 +31,15 @@ const CreateRecipe: React.FC = () => {
                     fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list'),
                     fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
                 ]);
-    
+
                 const ingredientData = await ingredientRes.json();
                 const categoryData = await categoryRes.json();
                 const cuisineData = await cuisineRes.json();
-    
+
                 const ingredients = ingredientData.meals.map((item: any) => item.strIngredient).filter(Boolean);
                 const categories = categoryData.meals.map((item: any) => item.strCategory).filter(Boolean);
                 const cuisines = cuisineData.meals.map((item: any) => item.strArea).filter(Boolean);
-    
+
                 setIngredientList(ingredients);
                 setCategoryList(categories);
                 setCuisineList(cuisines);
@@ -48,19 +47,19 @@ const CreateRecipe: React.FC = () => {
                 console.error('Failed to fetch data:', error);
             }
         };
-    
+
         fetchData();
     }, []);
 
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
-    
+
         if (!file.type.startsWith('image/')) {
             alert('Only image files are allowed.');
             return;
         }
-    
+
         try {
             const res = await fetch(`http://localhost:5000/s3/generate-upload-url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`);
             const { uploadUrl, publicUrl } = await res.json();
@@ -71,7 +70,7 @@ const CreateRecipe: React.FC = () => {
                 headers: { "Content-Type": file.type },
                 body: file,
             });
-    
+
             setPicture({ name: file.name, link: publicUrl });
         } catch (error) {
             console.error("Upload failed:", error);
@@ -94,7 +93,7 @@ const CreateRecipe: React.FC = () => {
             name: ing.name,
             amount: [ing.quantity, ing.unit].filter(Boolean).join(' ')
         }));
-        
+
         const recipeData = {
             name,
             // description,
@@ -115,7 +114,7 @@ const CreateRecipe: React.FC = () => {
                 },
                 body: JSON.stringify(recipeData),
             });
-    
+
             const data = await response.json();
             if (data.success) {
                 alert('Recipe created successfully!');

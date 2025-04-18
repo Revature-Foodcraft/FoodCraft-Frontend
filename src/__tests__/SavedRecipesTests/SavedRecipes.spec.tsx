@@ -1,6 +1,6 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import SavedRecipes from '../../Components/SavedRecipes/SavedRecipes';
-import { MemoryRouter } from 'react-router-dom';
+// import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+// import SavedRecipes from '../../Components/SavedRecipes/SavedRecipes';
+// import { MemoryRouter } from 'react-router-dom';
 
 beforeEach(() => {
     global.fetch = jest.fn();
