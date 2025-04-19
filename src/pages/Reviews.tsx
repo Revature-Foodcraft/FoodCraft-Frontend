@@ -1,5 +1,5 @@
 // src/Pages/Reviews.tsx
-import React, { useEffect, useState } from "react";
+/*import React, { useEffect, useState } from "react";
 import ReviewCard, { Review } from "../Components/ReviewCard";
 import "../css/Reviews.css";
 
@@ -218,4 +218,4 @@ const Reviews: React.FC = () => {
   );
 };
 
-export default Reviews;
+export default Reviews;*/

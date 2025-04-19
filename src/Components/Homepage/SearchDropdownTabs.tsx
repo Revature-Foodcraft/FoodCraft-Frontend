@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import MealCategorySelect from "./MealCategorySelect";
-import CuisineSelect from "./CuisineSelect";
+import MealCategorySelect from "../SearchFeature/MealCategorySelect";
+import CuisineSelect from "../SearchFeature/CuisineSelect";
+import SortByDropdown from "../SearchFeature/SortByDropdown";
 
 const SearchDropdownTabs: React.FC = () => {
     const [activeTab, setActiveTab] = useState<"meal" | "cuisine">("meal");

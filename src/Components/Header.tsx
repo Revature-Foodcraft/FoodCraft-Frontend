@@ -8,10 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchDropdownTabs from './SearchFeature/SearchDropdownTabs';
 import SortByDropdown from './SearchFeature/SortByDropdown';
 import logoPic from "../assets/logo.svg";
+import 'bootstrap/dist/css/bootstrap.min.css'; // ✅ still included globally
 
 const Header: React.FC = () => {
-    const { isLoggedIn, setLogInStatus } = useContext(AuthContext);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { isLoggedIn } = useContext(AuthContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
     const [showCuisineTab, setShowCuisineTab] = useState(false);
 
@@ -20,17 +21,16 @@ const Header: React.FC = () => {
     const [invert, setInvert] = useState(false)
     const [sortBy, setSortBy] = useState("Recently Added")
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(prevState => !prevState); // Toggle dropdown visibility
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
     };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value); // Set the search query based on user input
-    };
     const toggleCuisineTab = () => {
         setShowCuisineTab(prev => !prev);
-
     };
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     return (
         <div className='wrapper'>
@@ -41,55 +41,70 @@ const Header: React.FC = () => {
                 </div>
                 <nav>
                     <ul>
-                        <li>
-                            <Link to="/">
-                                <button>Home</button>
-                            </Link>
-                        </li>
-                        <li>
-                            <button onClick={toggleDropdown}>Search</button>
-                            {isDropdownOpen && (
-                                <div className="dropdownMenu">
-                                    <DisplayContext.Provider value={{ mealCategory, setMealCategorySelect, selectedCuisine, setSelectedCuisine, invert, setInvert, sortBy, setSortBy }}>
-                                        <button className="cuisineButton btn btn-warning mb-3" onClick={toggleCuisineTab}>
-                                            Cuisine Filter
-                                        </button>
-                                        {showCuisineTab && (
-                                            <SearchDropdownTabs />
-                                        )}
-                                        <input
-                                            type="text"
-                                            placeholder="Search for recipes..."
-                                            onChange={handleSearchChange}
-                                        />
-                                        <SortByDropdown />
-                                        <DisplayRecipe searchQuery={searchQuery} />
-
-                                    </DisplayContext.Provider>
-                                </div>
-                            )}
-                        </li>
+                        <li><Link to="/"><button>Home</button></Link></li>
+                        <li><button onClick={openModal}>Search</button></li>
                         {isLoggedIn ? (
                             <>
-                                <li>
-                                    <Link to="/profile">
-                                        <button>Profile</button>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/account">
-                                        <button>Account</button>
-                                    </Link>
-                                </li>
+                                <li><Link to="/profile"><button >Profile</button></Link></li>
+                                <li><Link to="/account"><button >Account</button></Link></li>
                             </>
                         ) : (
-                            <li>
-                                <LoginRegisterPopup />
-                            </li>
+                            <li><LoginRegisterPopup /></li>
                         )}
                     </ul>
                 </nav>
             </header>
+
+            {/* Custom Modal (No Bootstrap) */}
+            {isModalOpen && (
+                <div className="custom-backdrop" onClick={closeModal}>
+                    <div className="custom-modal-container" onClick={e => e.stopPropagation()}>
+                        <div className="custom-modal-header">
+                            <h2>Search Recipes</h2>
+                            <button className="close-btn" onClick={closeModal}>&times;</button>
+                        </div>
+                        <div className="custom-modal-body" >
+                            <DisplayContext.Provider value={{
+                                mealCategory,
+                                setMealCategorySelect,
+                                selectedCuisine,
+                                setSelectedCuisine,
+                                invert,
+                                setInvert,
+                                sortBy,
+                                setSortBy
+                            }}>
+                               
+                               <input
+                                type="text"
+                                placeholder="Search for recipes..."
+                                onChange={handleSearchChange}
+                                value={searchQuery ?? ""}
+                                className="form-control mb-3 text-center" // Bootstrap's text-center
+                                />
+
+
+                                <div className="filters-wrapper">
+                                <SortByDropdown />
+                                <button className="btn btn-warning" onClick={toggleCuisineTab}>
+                                    Cuisine Filter
+                                </button>
+                                </div>
+
+                                {showCuisineTab && (
+                                <div className="cuisine-tab-wrapper">
+                                    <SearchDropdownTabs />
+                                </div>
+                                )}
+
+                                <div className="recipe-grid">
+                                    <DisplayRecipe searchQuery={searchQuery} />
+                                </div>
+                            </DisplayContext.Provider>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
