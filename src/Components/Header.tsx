@@ -3,9 +3,10 @@ import '../css/Header.css';
 import LoginRegisterPopup from './LoginRegisterPopup';
 import { Link } from "react-router-dom";
 import { AuthContext, DisplayContext } from './Contexts';
-import DisplayRecipe from '../Components/Homepage/DisplayRecipes';
-import SearchDropdownTabs from './Homepage/SearchDropdownTabs';
-import SortByDropdown from './Homepage/SortByDropdown';
+import DisplayRecipe from './SearchFeature/DisplayRecipes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchDropdownTabs from './SearchFeature/SearchDropdownTabs';
+import SortByDropdown from './SearchFeature/SortByDropdown';
 import logoPic from "../assets/logo.svg";
 import 'bootstrap/dist/css/bootstrap.min.css'; // ✅ still included globally
 

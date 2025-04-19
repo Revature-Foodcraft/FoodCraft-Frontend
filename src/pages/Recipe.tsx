@@ -3,37 +3,91 @@ import { Link, useParams } from 'react-router-dom';
 import '../css/Recipe.css';
 import imageNotFound from '../assets/imageNotFound.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ReviewCard from '../Components/ReviewCard';
 
+interface Review {
+    reviewId: string;
+    recipeId: string;
+    user_id: string;
+    comment: string;
+    rating: number;
+    dateCreated: string;
+}
 
+interface User {
+    user_id: string;
+    picture?: string;
+    account: {
+        firstname: string;
+        lastname: string;
+    };
+}
 const Recipe: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string; }>();
     const [recipe, setRecipe] = useState<any>(null);
     const [isApiRecipe, setIsApiRecipe] = useState(false);
     const [similarRecipes, setSimilarRecipes] = useState<any[]>([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [enrichedReviews, setEnrichedReviews] = useState<(Review & {
+        firstname: string;
+        lastname: string;
+        picture?: string;
+    })[]>([]);
+    const [showModal, setShowModal] = useState(false);
+    const [newComment, setNewComment] = useState("");
+    const [newRating, setNewRating] = useState(5);
+
+    const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
+
+    const submitReview = async () => {
+        try {
+            const res = await fetch(`http://localhost:5000/recipes/${id}/reviews`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ comment: newComment, rating: newRating }),
+            });
+            const json = await res.json();
+            if (json.success) {
+                // reload reviews
+                const updated = await fetch(`http://localhost:5000/recipes/${id}/reviews`).then(r => r.json());
+                if (updated.success) setReviews(updated.reviews);
+                closeModal();
+            } else {
+                alert("Error: " + json.message);
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Failed to submit review.");
+        }
+    };
 
     const handleSaveToList = async () => {
-        const response = await fetch("http://localhost:5000/user/recipes",{
-            method:"POST",
+        const response = await fetch("http://localhost:5000/user/recipes", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
-            },        
-            body:JSON.stringify({
-                "recipeId":id
+            },
+            body: JSON.stringify({
+                "recipeId": id
             })
-            
-        })
 
-        if(response.status == 200){
-            alert("Added to save list")
+        });
+
+        if (response.status == 200) {
+            alert("Added to save list");
         }
-    }
+    };
     useEffect(() => {
         if (!id) return;
-    
+
         const isApi = window.location.pathname.includes("/recipe/api/");
         setIsApiRecipe(isApi);
-    
+
         if (isApi) {
             fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
                 .then(res => res.json())
@@ -54,12 +108,12 @@ const Recipe: React.FC = () => {
                                 carbs: "N/A",
                                 protein: "N/A"
                             },
-                            pictures: [ { link: meal.strMealThumb } ],
+                            pictures: [{ link: meal.strMealThumb }],
                             youtube: meal.strYoutube,
                             user_id: "API",
                             category: meal.strCategory || "Unknown" // You might need to adjust this depending on your data
                         });
-    
+
                         // Fetch similar recipes based on category
                         fetchSimilarRecipes(meal.strCategory);
                     }
@@ -72,9 +126,50 @@ const Recipe: React.FC = () => {
                     fetchSimilarRecipes(data.recipe.category); // fetch similar recipes based on category
                 })
                 .catch(error => console.error("Error fetching recipe:", error));
+
+            fetch(`http://localhost:5000/recipes/${id}/reviews`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) setReviews(data.reviews);
+                })
+                .catch(err => console.error("Error fetching reviews:", err));
         }
     }, [id]);
-    
+
+    useEffect(() => {
+        // once reviews are loaded, fetch all users in one go
+        if (reviews.length === 0) {
+            setEnrichedReviews([]);
+            return;
+        }
+        const userIds = Array.from(new Set(reviews.map(r => r.user_id)));
+        console.log(userIds.length);
+        fetch(`http://localhost:5000/users?ids=${userIds.join(',')}`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) return;
+
+                // 2) build a lookup map from userId → user object
+                const userMap: Record<string, User> = {};
+                data.users.forEach((u: User) => {
+                    userMap[u.user_id] = u;
+                });
+
+                // 3) merge each review with its user info
+                const merged = reviews.map(r => {
+                    const user = userMap[r.user_id];
+                    return {
+                        ...r,
+                        firstname: user?.account.firstname || 'Unknown',
+                        lastname: user?.account.lastname || 'Unknown',
+                        picture: user?.picture || undefined,
+                    };
+                });
+
+                setEnrichedReviews(merged);
+            });
+    }, [reviews]);
+
     // New function to fetch similar recipes
     const fetchSimilarRecipes = (category: string) => {
         fetch(`http://localhost:5000/recipes?category=${category}`)
@@ -87,15 +182,15 @@ const Recipe: React.FC = () => {
                         picture: recipe.pictures?.[0] || imageNotFound,
                         user_id: recipe.user_id
                     })));
-                    
-                    
+
+
                 }
             })
             .catch(error => console.error("Error fetching similar recipes:", error));
     };
-    
-    
-    
+
+
+
     if (!recipe) {
         return <p>Loading recipe...</p>;
     }
@@ -112,7 +207,7 @@ const Recipe: React.FC = () => {
         if (!url) return null;
         return url.split('v=')[1]?.split('&')[0];
     };
-    
+
 
     const youtubeVideoId = getYouTubeVideoId(recipe.youtube);
 
@@ -129,8 +224,8 @@ const Recipe: React.FC = () => {
             
             <div className="recipe-layout">
                 <div className="ingredients-instructions">
-                        <h3 className="recipe-name text-center">{recipe.name}</h3>
-                    
+                    <h3 className="recipe-name text-center">{recipe.name}</h3>
+
                     <div className="recipe-author">
                         <div className="author-avatar"></div>
                         <p className="author-name">Recipe By: User {recipe.user_id}</p>
@@ -143,7 +238,7 @@ const Recipe: React.FC = () => {
                             </li>
                         ))}
                     </ul>
-    
+
                     <h4>Instructions</h4>
                     <ol className="instructions-list">
                         {recipe.instructions.map((step: string, index: number) => (
@@ -157,11 +252,11 @@ const Recipe: React.FC = () => {
                         <p><strong>Protein:</strong> {recipe.macros?.protein} g</p>
                     </div>
                 </div>
-    
+
                 {/* NEW WRAPPER for side content */}
                 <div className="side-content-wrapper">
                     <div className="middle-section">
-                        <div className="middle-top">
+                        {/*<div className="middle-top">
                             <div className="review-box">
                                 <div className="review-header">
                                     <div className="review-avatar"></div>
@@ -170,7 +265,57 @@ const Recipe: React.FC = () => {
                                 <p className="review-text">"This recipe was amazing! The flavors were perfect."</p>
                                 <div className="review-stars">⭐⭐⭐⭐⭐</div>
                             </div>
+                        </div>*/}
+                        <div className="middle-top">
+                            <div>
+                                <button className="add-review-btn" onClick={openModal}>Add Review</button>
+                            </div>
+
+                            <div className="review-card-div">
+                                {enrichedReviews.map((review) => (
+                                    <ReviewCard
+                                        key={review.reviewId}
+                                        reviewerName={`${review.firstname} ${review.lastname}`}
+                                        rating={review.rating}
+                                        description={review.comment}
+                                        reviewerPicture={review.picture}
+                                    />
+                                ))}
+                            </div>
+                            {showModal && (
+                                <div className="modal-overlay" onClick={closeModal}>
+                                    <div
+                                        className="modal-content"
+                                        onClick={e => e.stopPropagation() /* prevent closing when clicking inside */}
+                                    >
+                                        <h3>Add a Review</h3>
+                                        <textarea
+                                            value={newComment}
+                                            onChange={e => setNewComment(e.target.value)}
+                                            placeholder="Your comment..."
+                                        />
+                                        <label>
+                                            Rating:
+                                            <select
+                                                value={newRating}
+                                                onChange={e => setNewRating(Number(e.target.value))}
+                                            >
+                                                {[5, 4, 3, 2, 1].map(n => (
+                                                    <option key={n} value={n}>{n} Star{n > 1 ? 's' : ''}</option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                        <div className="modal-buttons">
+                                            <button onClick={submitReview}>Submit</button>
+                                            <button onClick={closeModal}>Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
+
+
                         <div className="middle-bottom">
                             {youtubeVideoId ? (
                                 <iframe
@@ -186,7 +331,7 @@ const Recipe: React.FC = () => {
                             )}
                         </div>
                     </div>
-    
+
                     <div className="food-image">
                         <img
                             src={getImageUrl(recipe.pictures?.[0] || recipe.pictures)}
@@ -195,39 +340,39 @@ const Recipe: React.FC = () => {
                     </div>
                 </div>
             </div>
-    
+
             <div className="recipeSuggestions">
-    <h2>Similar Recipes</h2>
-    <div className="suggestions-container">
-        {similarRecipes.length > 0 ? (
-            similarRecipes.map((similarRecipe, index) => (
-                <Link
-                    to={
-                        similarRecipe.user_id === "API"
-                            ? `/recipe/api/${similarRecipe.id}`
-                            : `/recipe/${similarRecipe.id}`
-                    }
-                    key={index}
-                    className="suggestion-box"
-                >
-                    <img
-                        src={similarRecipe.picture}
-                        alt={similarRecipe.name || "Recipe Image"}
-                        className="suggestion-image"
-                    />
-                    <p>{similarRecipe.name}</p>
-                </Link>
-            ))
-        ) : (
-            <p>No similar recipes found.</p>
-        )}
-    </div>
-    </div>
+                <h2>Similar Recipes</h2>
+                <div className="suggestions-container">
+                    {similarRecipes.length > 0 ? (
+                        similarRecipes.map((similarRecipe, index) => (
+                            <Link
+                                to={
+                                    similarRecipe.user_id === "API"
+                                        ? `/recipe/api/${similarRecipe.id}`
+                                        : `/recipe/${similarRecipe.id}`
+                                }
+                                key={index}
+                                className="suggestion-box"
+                            >
+                                <img
+                                    src={similarRecipe.picture}
+                                    alt={similarRecipe.name || "Recipe Image"}
+                                    className="suggestion-image"
+                                />
+                                <p>{similarRecipe.name}</p>
+                            </Link>
+                        ))
+                    ) : (
+                        <p>No similar recipes found.</p>
+                    )}
+                </div>
+            </div>
 
 
 
 
         </div>
     );
-}    
+};
 export default Recipe;
