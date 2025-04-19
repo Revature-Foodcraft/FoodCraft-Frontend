@@ -1,3 +1,128 @@
+/* === Custom Modal Styling (Non-Bootstrap) === */
+.custom-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* dimming */
+  backdrop-filter: blur(4px); /* 🔥 blurred background */
+  -webkit-backdrop-filter: blur(5px); /* For Safari */
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.custom-modal-container {
+  background-color: rgb(255, 255, 255);
+  width: 90vw;
+  max-width: 1200px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.custom-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.custom-modal-header h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #5b3e18;
+  margin: 0 auto;
+}
+
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+.custom-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+/* === New: Filters Section === */
+.filters-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filters-wrapper button,
+.filters-wrapper select {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fffbe6;
+  color: #5b3e18;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filters-wrapper button:hover,
+.filters-wrapper select:hover {
+  background-color: #ffe2a8;
+}
+
+/* Refined search input */
+.custom-modal-body input[type="text"] {
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Responsive modal */
+@media (max-width: 768px) {
+  .custom-modal-container {
+    width: 95vw;
+    padding: 20px;
+  }
+
+  .custom-modal-header h2 {
+    font-size: 22px;
+  }
+
+  .close-btn {
+    font-size: 24px;
+  }
+
+  .filters-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 /* Header container */
 header {
   padding: 10px 20px;
@@ -62,168 +187,4 @@ header nav ul li button:hover {
   color: #edd2a8;
   font-weight: bolder;
   font-family: 'Courier New', Courier, monospace;
-}
-
-/* Dropdown styling */
-.dropdownMenu {
-  position: absolute;
-  top: 50px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 900px;
-  max-height: 600px;
-  overflow-y: auto;
-  z-index: 1000;
-}
-
-.dropdownMenu input {
-  font-size: 16px;
-  border: 2px solid #ff9d00;
-  border-radius: 6px;
-  padding: 12px;
-  background-color: #fff8ec;
-  color: #333;
-}
-
-
-.dropdownMenu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdownMenu ul li {
-  padding: 8px 10px;
-}
-
-.dropdownMenu ul li a {
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  display: block;
-}
-
-.dropdownMenu ul li a:hover {
-  background-color: #f1f1f1;
-}
-
-/* Card Grid */
-.dropdownMenu .card-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
-
-/* Card Style */
-.dropdownMenu .card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.dropdownMenu .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  cursor: pointer;
-}
-
-.dropdownMenu .card-title {
-  font-size: 16px;
-  color: #5b3e18;
-  font-weight: bold;
-  text-align: center;
-}
-
-.dropdownMenu .card-body {
-  font-size: 14px;
-  color: #333;
-}
-
-.dropdownMenu .card-header,
-.dropdownMenu .card-body {
-  padding: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dropdownMenu .card-title {
-  font-size: 16px;
-  color: #5b3e18;
-  font-weight: bold;
-  text-align: center;
-}
-
-/* Pagination */
-.pagination {
-  margin-top: 10px;
-  font-size: 14px;
-}
-/* Entire filter section */
-.filter-section {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Meal type tab buttons */
-.meal-type-tabs {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.meal-tab {
-  background-color: #f4e0c2;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #5b3e18;
-  transition: background-color 0.3s ease;
-}
-
-.meal-tab:hover {
-  background-color: #edd2a8;
-}
-
-.meal-tab.active {
-  background-color: #ff9d00;
-  color: white;
-}
-
-/* Cuisine checkbox container */
-.cuisine-checkboxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px 20px;
-  align-items: center;
-}
-
-
-
-/* Checkbox styling */
-.cuisine-checkboxes .form-check {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px;
-}
-
-
-.cuisine-checkboxes .form-check-input {
-  margin-right: 6px;
-  width: 16px;
-  height: 16px;
-}
-
-.cuisine-checkboxes .form-check-label {
-  color: #5b3e18;
-  font-weight: 500;
-  font-size: 14px;
-}
-.cusineButton{
-  text-align: center;
 }
