@@ -12,10 +12,6 @@ import SaveRecipe from './pages/saveRecipe';
 import { AuthContext } from './Components/Contexts';
 import { ProtectedRoute } from './Components/ProtectedRoutes';
 
-// function ProtectedRoute( isLoggedIn:boolean, children:any ) {
-//   return isLoggedIn ? children : <Navigate to="/" />;
-// }
-
 const App: React.FC = () => {
   const [isLoggedIn,setLogInStatus] = useState(false)
   
