@@ -10,24 +10,24 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const {setLogInStatus} = useContext(AuthContext)
+  const { setLogInStatus } = useContext(AuthContext)
   const nav = useNavigate()
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('http://3.144.40.72:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
       });
-      
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
       localStorage.setItem('token', data.token);
-      
+
       setLogInStatus(true)
       nav('/')
     } catch (err: any) {
@@ -35,20 +35,20 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleSuccess =  async (credentialResponse:any) => {
-    try{
-      const response = await fetch('http://localhost:5000/auth/google',{
+  const handleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await fetch('http://3.144.40.72:5000/auth/google', {
         method: 'POST',
-        headers:{"Authorization": `Bearer ${credentialResponse.credential}`}
+        headers: { "Authorization": `Bearer ${credentialResponse.credential}` }
       })
-      
-      if(response.status == 200){
+
+      if (response.status == 200) {
         const data = await response.json()
         localStorage.setItem('token', data.token);
         setLogInStatus(true)
         nav('/')
       }
-    }catch(error:any){
+    } catch (error: any) {
       setError(error.message)
     }
   };
@@ -104,7 +104,7 @@ const Login: React.FC = () => {
           <div >
             <p className='mt-3'>or</p>
             <div className='d-flex justify-content-center'>
-              <GoogleLogin onSuccess={handleSuccess} onError={handleError}/>
+              <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
             </div>
           </div>
         </form>

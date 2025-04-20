@@ -13,13 +13,13 @@ const Register: React.FC = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [error, setError] = useState('');
-  const {setLogInStatus} = useContext(AuthContext)
+  const { setLogInStatus } = useContext(AuthContext)
   const nav = useNavigate()
-  
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/users', {
+      const response = await fetch('http://3.144.40.72:5000/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -35,8 +35,8 @@ const Register: React.FC = () => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Registration failed');
-      try{
-        const response = await fetch('http://localhost:5000/login', {
+      try {
+        const response = await fetch('http://3.144.40.72:5000/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -44,15 +44,15 @@ const Register: React.FC = () => {
           body: JSON.stringify({ username, password }),
         });
 
-        if(response.status == 200){
+        if (response.status == 200) {
           localStorage.setItem('token', (await response.json()).token)
           setLogInStatus(true)
           nav('/')
-        }else{
+        } else {
           setError("Failed to register and login to account")
         }
-        
-      } catch(err:any){
+
+      } catch (err: any) {
         setError(err)
       }
     } catch (err: any) {
@@ -60,22 +60,22 @@ const Register: React.FC = () => {
     }
   };
 
-  const handleSuccess =  async (credentialResponse:any) => {
-    try{
-      const response = await fetch('http://localhost:5000/auth/google',{
+  const handleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await fetch('http://3.144.40.72:5000/auth/google', {
         method: 'POST',
-        headers:{"Authorization": `Bearer ${credentialResponse.credential}`}
+        headers: { "Authorization": `Bearer ${credentialResponse.credential}` }
       })
-      
-      if(response.status == 200){
+
+      if (response.status == 200) {
         const data = await response.json()
         localStorage.setItem('token', data.token);
         setLogInStatus(true)
         nav('/')
-      }else{
+      } else {
         setError("Failed to Login")
       }
-    }catch(error:any){
+    } catch (error: any) {
       setError(error.message)
     }
   };
@@ -168,12 +168,12 @@ const Register: React.FC = () => {
             </Link>
           </div>
         </form>
-          <div >
-            <p className='mt-3'>or</p>
-            <div className='d-flex justify-content-center'>
-              <GoogleLogin text="signup_with" onSuccess={handleSuccess} onError={handleError}/>
-            </div>
+        <div >
+          <p className='mt-3'>or</p>
+          <div className='d-flex justify-content-center'>
+            <GoogleLogin text="signup_with" onSuccess={handleSuccess} onError={handleError} />
           </div>
+        </div>
       </div>
     </div>
   );

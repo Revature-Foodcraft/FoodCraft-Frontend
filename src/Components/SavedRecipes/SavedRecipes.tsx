@@ -28,7 +28,7 @@ const SavedRecipes: React.FC = () => {
           throw new Error("No token found in localStorage");
         }
 
-        const response = await fetch("http://localhost:5000/user/recipes", {
+        const response = await fetch("http://3.144.40.72:5000/user/recipes", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const SavedRecipes: React.FC = () => {
         throw new Error("No token found in localStorage");
       }
 
-      const response = await fetch("http://localhost:5000/user/recipes", {
+      const response = await fetch("http://3.144.40.72:5000/user/recipes", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -145,14 +145,14 @@ const SavedRecipes: React.FC = () => {
         })}
       </div>
 
-            <div className='row m-3' >
-              <Link to="saveRecipe">
-                <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
-               </Link> 
-            </div>
-            <Outlet />
-       </div>
-    )
+      <div className='row m-3' >
+        <Link to="saveRecipe">
+          <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
+        </Link>
+      </div>
+      <Outlet />
+    </div>
+  )
 }
 
 export default SavedRecipes
