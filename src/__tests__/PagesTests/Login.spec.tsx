@@ -71,7 +71,7 @@ describe('Login Component', () => {
         fireEvent.click(screen.getByRole('button', { name: /^Login$/i }));
 
         await waitFor(() => {
-            expect(global.fetch).toHaveBeenCalledWith('http://localhost:5000/login', expect.objectContaining({
+            expect(global.fetch).toHaveBeenCalledWith('http://3.144.40.72:5000/login', expect.objectContaining({
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: 'testuser', password: 'password123' }),
@@ -136,7 +136,7 @@ describe('Login Component', () => {
         fireEvent.click(googleButton);
 
         await waitFor(() => {
-            expect(global.fetch).toHaveBeenCalledWith('http://localhost:5000/auth/google', expect.objectContaining({
+            expect(global.fetch).toHaveBeenCalledWith('http://3.144.40.72:5000/auth/google', expect.objectContaining({
                 method: 'POST',
                 headers: { "Authorization": `Bearer dummy-google-credential` },
             }));
