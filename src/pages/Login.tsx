@@ -74,8 +74,8 @@ const Login: React.FC = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            <label>Username:</label>
-            <input
+            <label htmlFor='loginUsername'>Username:</label>
+            <input id='loginUsername'
               type="text"
               name="username"
               required
@@ -85,8 +85,8 @@ const Login: React.FC = () => {
             />
           </div>
           <div>
-            <label>Password:</label>
-            <input
+            <label htmlFor='loginPassword'>Password:</label>
+            <input id='loginPassword'
               type="password"
               name="password"
               required
