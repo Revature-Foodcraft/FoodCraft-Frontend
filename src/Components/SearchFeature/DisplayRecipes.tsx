@@ -9,8 +9,6 @@ interface SearchProp {
     searchQuery: string | null;
 }
 
-
-
 const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
     const { sortBy, invert, selectedCuisine, mealCategory } = useContext(DisplayContext);
     const [recipes, setRecipes] = useState<any[]>([])
@@ -169,4 +167,4 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
     )
 }
 
-export default DisplayRecipe
+export default DisplayRecipe;

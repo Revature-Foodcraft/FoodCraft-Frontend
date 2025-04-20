@@ -271,6 +271,53 @@ h2{
         height: auto;
     }
 }
+.recipe-header {
+    position: relative;
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #fff3e07e; /* soft culinary background tone */
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+h1{
+    font-size: 3.0rem;
+}
+.recipe-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000000;
+    font-family: '"Rockwell", "Georgia", serif'
+}
+
+.save-btn-header {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    background-color: #965e1d;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    z-index: 5;
+}
+
+.save-btn-header:hover {
+    background-color: #f4511e;
+}
+
+.save-btn-header img {
+    width: 16px;
+    height: 16px;
+}
 .modal-overlay {
     position: fixed;
     top: 0; left: 0;

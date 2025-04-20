@@ -214,11 +214,14 @@ const Recipe: React.FC = () => {
 
     return (
         <div className="containerRecipe">
-            <div className='d-flex justify-content-around'>
-                <h1>{recipe.name}</h1>
-                <button className='btn' onClick={handleSaveToList}><img src={"/src/assets/floppy.svg"} /> Save To Recipe List</button>
-            </div>
+           <div className="recipe-header">
+    <h1>{recipe.name}</h1>
+    <button className="btn save-btn-header" onClick={handleSaveToList}>
+        <img src={"/src/assets/floppy.svg"} alt="Save"/> Save To Recipe List
+    </button>
+</div>
 
+            
             <div className="recipe-layout">
                 <div className="ingredients-instructions">
                     <h3 className="recipe-name text-center">{recipe.name}</h3>
