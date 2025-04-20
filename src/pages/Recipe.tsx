@@ -42,7 +42,7 @@ const Recipe: React.FC = () => {
 
     const submitReview = async () => {
         try {
-            const res = await fetch(`http://localhost:5000/recipes/${id}/reviews`, {
+            const res = await fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const Recipe: React.FC = () => {
             const json = await res.json();
             if (json.success) {
                 // reload reviews
-                const updated = await fetch(`http://localhost:5000/recipes/${id}/reviews`).then(r => r.json());
+                const updated = await fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`).then(r => r.json());
                 if (updated.success) setReviews(updated.reviews);
                 closeModal();
             } else {
@@ -66,7 +66,7 @@ const Recipe: React.FC = () => {
     };
 
     const handleSaveToList = async () => {
-        const response = await fetch("http://localhost:5000/user/recipes", {
+        const response = await fetch("http://3.144.40.72:5000/user/recipes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const Recipe: React.FC = () => {
                     }
                 });
         } else {
-            fetch(`http://localhost:5000/recipes/${id}`)
+            fetch(`http://3.144.40.72:5000/recipes/${id}`)
                 .then(response => response.json())
                 .then(data => {
                     setRecipe(data.recipe);
@@ -127,7 +127,7 @@ const Recipe: React.FC = () => {
                 })
                 .catch(error => console.error("Error fetching recipe:", error));
 
-            fetch(`http://localhost:5000/recipes/${id}/reviews`)
+            fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) setReviews(data.reviews);
@@ -144,7 +144,7 @@ const Recipe: React.FC = () => {
         }
         const userIds = Array.from(new Set(reviews.map(r => r.user_id)));
         console.log(userIds.length);
-        fetch(`http://localhost:5000/users?ids=${userIds.join(',')}`)
+        fetch(`http://3.144.40.72:5000/users?ids=${userIds.join(',')}`)
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return;
@@ -172,7 +172,7 @@ const Recipe: React.FC = () => {
 
     // New function to fetch similar recipes
     const fetchSimilarRecipes = (category: string) => {
-        fetch(`http://localhost:5000/recipes?category=${category}`)
+        fetch(`http://3.144.40.72:5000/recipes?category=${category}`)
             .then(response => response.json())
             .then(data => {
                 if (data.recipes) {

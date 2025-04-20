@@ -63,7 +63,7 @@ export const useMacros = (): UseMacrosReturn => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/macros', {
+      const res = await fetch('http://3.144.40.72:5000/macros', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,7 +114,7 @@ export const useMacros = (): UseMacrosReturn => {
     const newCalories = currentCalories + inputValues.Calories;
 
     try {
-      const res = await fetch('http://localhost:5000/macros', {
+      const res = await fetch('http://3.144.40.72:5000/macros', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -153,7 +153,7 @@ export const useMacros = (): UseMacrosReturn => {
         caloriesGoal: newGoals.Calories, // Include caloriesGoal
       };
 
-      const res = await fetch('http://localhost:5000/macros/goals', {
+      const res = await fetch('http://3.144.40.72:5000/macros/goals', {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
