@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import CreateRecipe from "../../pages/saveRecipe"; 
-
+import CreateRecipe from "../../pages/saveRecipe";
+import { MemoryRouter } from "react-router-dom";
 beforeEach(() => {
   localStorage.clear();
   jest.clearAllMocks();
@@ -10,8 +10,12 @@ beforeEach(() => {
 
 describe("CreateRecipe Component", () => {
   test("renders form elements correctly", async () => {
-    render(<CreateRecipe />);
-    
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
+
     const heading = screen.getByRole("heading", { level: 1, name: /Create Recipe/i });
     expect(heading).toBeInTheDocument();
 
@@ -34,7 +38,11 @@ describe("CreateRecipe Component", () => {
   });
 
   test("updates recipe name on user input", () => {
-    render(<CreateRecipe />);
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
     const recipeNameInput = screen.getByPlaceholderText(/Recipe Name/i) as HTMLInputElement;
 
     fireEvent.change(recipeNameInput, { target: { value: "My Awesome Recipe" } });
@@ -42,36 +50,48 @@ describe("CreateRecipe Component", () => {
   });
 
   test("adds a new ingredient field when '+ Add Ingredient' button is clicked", () => {
-    render(<CreateRecipe />);
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
 
     const initialIngredientPlaceholders = screen.queryAllByText("Search Ingredient");
     const initialCount = initialIngredientPlaceholders.length;
-    
+
     const addIngredientBtn = screen.getByRole("button", { name: /\+ Add Ingredient/i });
     fireEvent.click(addIngredientBtn);
-    
+
     const newIngredientPlaceholders = screen.queryAllByText("Search Ingredient");
     expect(newIngredientPlaceholders.length).toBe(initialCount + 1);
   });
 
   test("adds a new instruction field when '+ Add Instruction' button is clicked", () => {
-    render(<CreateRecipe />);
-    
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
+
     expect(screen.getByPlaceholderText(/Step 1/i)).toBeInTheDocument();
-    
+
     const addInstructionBtn = screen.getByRole("button", { name: /\+ Add Instruction/i });
     fireEvent.click(addInstructionBtn);
-    
+
     expect(screen.getByPlaceholderText(/Step 2/i)).toBeInTheDocument();
   });
 
   test("updates macro inputs when changed", () => {
-    render(<CreateRecipe />);
-    
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
+
     const macroInputs = screen.getAllByRole("spinbutton") as HTMLInputElement[];
 
     fireEvent.change(macroInputs[0], { target: { value: "300" } });
-    
+
     expect(macroInputs[0].value).toBe("300");
   });
 
@@ -92,14 +112,18 @@ describe("CreateRecipe Component", () => {
       return originalFetch(url, options);
     }) as jest.Mock;
 
-    render(<CreateRecipe />);
-    
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
+
     const fileInput = document.querySelector("input[type='file']") as HTMLInputElement;
     expect(fileInput).toBeInTheDocument();
 
     const file = new File(["dummy content"], "test-image.png", { type: "image/png" });
     fireEvent.change(fileInput, { target: { files: [file] } });
-    
+
     await waitFor(() => {
       const previewImage = screen.getByRole("img", { name: /test-image\.png/i });
       expect(previewImage).toBeInTheDocument();
@@ -118,9 +142,11 @@ describe("CreateRecipe Component", () => {
     } as Response);
     global.fetch = fetchSubmitMock as any;
 
-    jest.spyOn(window, "alert").mockImplementation(() => {});
-
-    render(<CreateRecipe />);
+    render(
+      <MemoryRouter>
+        <CreateRecipe />
+      </MemoryRouter>
+    );
 
     const recipeNameInput = screen.getByPlaceholderText(/Recipe Name/i) as HTMLInputElement;
     fireEvent.change(recipeNameInput, { target: { value: "Test Recipe Submission" } });
@@ -144,8 +170,10 @@ describe("CreateRecipe Component", () => {
         })
       );
     });
-    
-    expect(window.alert).toHaveBeenCalledWith("Recipe created successfully!");
+
+    await waitFor(() => {
+      expect(screen.getByText("Recipe created successfully!")).toBeInTheDocument();
+    });
 
     global.fetch = jest.fn();
   });
