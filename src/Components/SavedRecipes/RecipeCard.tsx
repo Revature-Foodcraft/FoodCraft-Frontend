@@ -14,36 +14,32 @@ interface RecipeCardProps {
 const RecipeCard: React.FC<RecipeCardProps> = ({ title, author, description, onDelete, id }) => {
   const navigate = useNavigate();
 
-  // Generate unique IDs based on the recipe id.
-  const collapseId = `flush-collapse-${id}`;
-  const headingId = `flush-heading-${id}`;
-
   const handleCardClick = () => {
-    navigate(`/recipes/${id}`);
+    navigate(`/recipe/db/${id}`);
   };
 
   return (
-    <div className="card m-1 custom-card">
+    <div className="card m-1 custom-card" style={{ cursor: 'pointer' }}>
       <div className="accordion-item">
-        <h4 className="accordion-header" id={headingId}>
+        <h4 className="accordion-header" id={`flush-heading-${id}`}>
           <button
             className="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target={`#${collapseId}`}
+            data-bs-target={`#flush-collapse-${id}`}
             aria-expanded="false"
-            aria-controls={collapseId}
+            aria-controls={`flush-collapse-${id}`}
           >
             {title}
           </button>
         </h4>
         <div
-          id={collapseId}
+          id={`flush-collapse-${id}`}
           className="accordion-collapse collapse"
           data-bs-parent="#accordionFlushExample"
         >
-          <div className="accordion-body" onClick={handleCardClick}>
-            <p className="card-text fw-bold">By: {author}</p>
+          <div className="accordion-body">
+            <p className="card-text fw-bold" onClick={handleCardClick}>By: {author}</p>
             {description && <p className="card-description">{description}</p>}
             {onDelete && (
               <button

@@ -112,7 +112,8 @@ const SavedRecipes: React.FC = () => {
           <p>Loading recipes...</p>
         </div>
       )}
-      {error && (
+
+      {!loading && recipes.length === 0 && (
         <div className='row'>
           <p className='text-secondary'>
             Oops! Looks like you haven't saved any recipes yet. Start building your collection now!
