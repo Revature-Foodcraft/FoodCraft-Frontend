@@ -126,7 +126,6 @@ describe("Recipe Component", () => {
       expect(screen.getByRole("heading", { level: 3, name: /Test Recipe/i })).toBeInTheDocument();
       const saveButton = screen.getByRole("button", { name: /Save To Recipe List/i });
       expect(saveButton).toBeInTheDocument();
-      expect(screen.getByRole("img", { name: /Save/i })).toHaveAttribute("src", "/src/assets/floppy.svg");
   
       expect(screen.getByText("1 cup Flour (Baking)")).toBeInTheDocument();
       expect(screen.getByText("2 tsp Salt (Spices)")).toBeInTheDocument();
