@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import '../css/saveRecipe.css';
+import { useNavigate } from 'react-router-dom';
+import Toast from '../Components/toast';
 
 const CreateRecipe: React.FC = () => {
     const [name, setName] = useState('');
@@ -14,6 +17,9 @@ const CreateRecipe: React.FC = () => {
     const [cuisine, setCuisine] = useState('');
     const [categoryList, setCategoryList] = useState<string[]>([]);
     const [cuisineList, setCuisineList] = useState<string[]>([]);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState<'success' | 'danger'>('success');
+    const navigate = useNavigate();
 
     const quantityOptions = [
         '1/8', '1/4', '1/3', '1/2', '2/3', '3/4', '1', '2', '3', '4', '5', 'a pinch', 'to taste'
@@ -56,7 +62,8 @@ const CreateRecipe: React.FC = () => {
         if (!file) return;
 
         if (!file.type.startsWith('image/')) {
-            alert('Only image files are allowed.');
+            setToastMessage('Only image files are allowed.');
+            setToastType('danger');
             return;
         }
 
@@ -74,7 +81,8 @@ const CreateRecipe: React.FC = () => {
             setPicture({ name: file.name, link: publicUrl });
         } catch (error) {
             console.error("Upload failed:", error);
-            alert("Image upload failed");
+            setToastMessage('Image upload failed');
+            setToastType('danger');
         }
     };
 
@@ -84,6 +92,10 @@ const CreateRecipe: React.FC = () => {
 
     const handleAddInstruction = () => {
         setInstructions([...instructions, '']);
+    };
+
+    const handleClose = () => {
+        navigate('/account');
     };
 
     const handleSubmit = async () => {
@@ -96,7 +108,6 @@ const CreateRecipe: React.FC = () => {
 
         const recipeData = {
             name,
-            // description,
             ingredients: formattedIngredients,
             macros,
             instructions,
@@ -117,20 +128,34 @@ const CreateRecipe: React.FC = () => {
 
             const data = await response.json();
             if (data.success) {
-                alert('Recipe created successfully!');
+                setToastMessage('Recipe created successfully!');
+                setToastType('success');
             } else {
-                alert('Failed to create recipe: ' + data.message);
+                setToastMessage('Failed to create recipe: ' + data.message);
+                setToastType('danger');
             }
         } catch (error) {
             console.error('Error submitting recipe:', error);
-            alert('An error occurred while creating the recipe.');
+            setToastMessage('An error occurred while creating the recipe.');
+            setToastType('danger');
         }
     };
 
     return (
+        
         <div className="container mt-4 mb-5">
-            <h1 className="text-center mb-4">Create Recipe</h1>
-
+             {toastMessage && (
+                <Toast
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={() => setToastMessage('')}
+                />
+            )}
+            
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h1 className="mb-0">Create Recipe</h1>
+                <button className="close-button" onClick={handleClose}>×</button>
+            </div>
             <div className="mb-3">
                 <input
                     className="form-control"
