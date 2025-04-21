@@ -229,7 +229,7 @@ const Recipe: React.FC = () => {
 
                     <div className="recipe-author">
                         <div className="author-avatar"></div>
-                        <p className="author-name">Recipe By: User {recipe.user_id}</p>
+                        <p className="author-name">Recipe By: FoodCrafter</p>
                     </div>
                     <h4>Ingredients</h4>
                     <ul className="ingredients-list">
