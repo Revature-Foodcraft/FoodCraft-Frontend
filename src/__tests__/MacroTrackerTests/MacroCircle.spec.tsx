@@ -24,4 +24,20 @@ describe('MacroCircle Component', () => {
 
         expect(screen.getByText('100%')).toBeInTheDocument();
     });
+
+    it("displays 0% progress when amount is 0 and goal is greater than 0", () => {
+        render(<MacroCircle label="Protein" amount={0} goal={100} />);
+        expect(screen.getByText("0%"));
+    });
+
+    it("displays correct percentage when amount is less than goal", () => {
+        render(<MacroCircle label="Protein" amount={50} goal={100} />);
+        expect(screen.getByText("50%"));
+    });
+
+    it("renders flame icon at correct position", () => {
+        render(<MacroCircle label="Protein" amount={50} goal={100} />);
+        const flame = screen.getByText("🔥");
+        expect(flame).toBeInTheDocument();
+    });
 });

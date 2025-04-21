@@ -7,11 +7,14 @@ import { useMacros } from './useMacros';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const MacroTracker: React.FC = () => {
+interface MacroTrackerProps {
+  loading?: boolean;
+  error?: string;
+}
+
+const MacroTracker: React.FC<MacroTrackerProps> = ({ loading = false, error = '' }) => {
   const {
     macros,
-    loading,
-    error,
     inputValues,
     setInputValues,
     showInputs,
@@ -51,6 +54,10 @@ const MacroTracker: React.FC = () => {
       <h4>Today's Macros</h4>
       {loading && <p>Loading...</p>}
       {error && <p className="error-text">{error}</p>}
+
+      {macros.length === 0 && !loading && !error && (
+        <p>No macros to display</p>
+      )}
 
       <div className="macro-circle-container">
         {macros.map((macro: MacroData) => (

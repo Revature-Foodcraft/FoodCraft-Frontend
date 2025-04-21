@@ -12,7 +12,7 @@ export interface MacroData {
 
 const MacroCircle: React.FC<MacroData> = ({ label, amount, goal }) => {
     // Calculate progress percentage, clamped to 100%
-    const percent = isNaN(amount / goal) ? 0 : Math.min((amount / goal) * 100, 100);
+    const percent = goal === 0 ? 0 : isNaN(amount / goal) ? 0 : Math.min((amount / goal) * 100, 100);
 
     // Coordinates and radius in viewBox coordinates (with viewBox "0 0 36 36")
     const cx = 18;
@@ -60,7 +60,7 @@ const MacroCircle: React.FC<MacroData> = ({ label, amount, goal }) => {
                 </text>
             </svg>
             <div className="macro-circle-amount mt-4">{amount}/{goal}</div>
-            <div className="macro-circle-label">{label}</div>
+            <div className="macro-circle-label" role='label'>{label}</div>
         </div>
     );
 };
