@@ -31,7 +31,7 @@ describe('GoalInput Component', () => {
             />
         );
 
-        const proteinInput = screen.getByLabelText('Protein');
+        const proteinInput = screen.getByLabelText('Protein') as HTMLInputElement;
         fireEvent.change(proteinInput, { target: { value: '150' } });
 
         expect(proteinInput.value).toBe('150');

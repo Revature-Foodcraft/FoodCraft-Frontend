@@ -14,10 +14,10 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-configure({
-  getElementError: (message, container) => {
-    const error = new Error(message);
-    error.name = 'TestingLibraryElementError';
-    return error;
-  },
-});
+// configure({
+//   getElementError: (message, container) => {
+//     const error = new Error(message);
+//     error.name = 'TestingLibraryElementError';
+//     return error;
+//   },
+// });
