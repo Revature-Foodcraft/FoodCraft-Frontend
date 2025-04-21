@@ -5,6 +5,7 @@ import imageNotFound from '../assets/imageNotFound.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReviewCard from '../Components/ReviewCard';
 import Floppy from '../assets/floppy.svg';
+import Toast from '../Components/toast';
 
 interface Review {
     reviewId: string;
@@ -25,6 +26,8 @@ interface User {
 }
 const Recipe: React.FC = () => {
     const { id } = useParams<{ id: string; }>();
+    const [toastMessage, setToastMessage] = useState<string>('');
+    const [toastType, setToastType] = useState<'success' | 'danger'>('success');
     const [recipe, setRecipe] = useState<any>(null);
     const [isApiRecipe, setIsApiRecipe] = useState(false);
     const [similarRecipes, setSimilarRecipes] = useState<any[]>([]);
@@ -44,10 +47,10 @@ const Recipe: React.FC = () => {
     const submitReview = async () => {
         try {
             const res = await fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({ comment: newComment, rating: newRating }),
             });
@@ -57,30 +60,37 @@ const Recipe: React.FC = () => {
                 const updated = await fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`).then(r => r.json());
                 if (updated.success) setReviews(updated.reviews);
                 closeModal();
+                setToastMessage('Review submitted successfully!');
+                setToastType('success');
             } else {
-                alert("Error: " + json.message);
+                setToastMessage(`Error: ${json.message}`);
+                setToastType('danger');
             }
         } catch (err) {
             console.error(err);
-            alert("Failed to submit review.");
+            setToastMessage('Failed to submit review.');
+            setToastType('danger');
         }
     };
 
     const handleSaveToList = async () => {
-        const response = await fetch("http://3.144.40.72:5000/user/recipes", {
-            method: "POST",
+        const response = await fetch('http://3.144.40.72:5000/user/recipes', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify({
-                "recipeId": id
-            })
-
+                recipeId: id,
+            }),
         });
 
-        if (response.status == 200) {
-            alert("Added to save list");
+        if (response.status === 200) {
+            setToastMessage('Added to save list!');
+            setToastType('success');
+        } else {
+            setToastMessage('Failed to add to save list.');
+            setToastType('danger');
         }
     };
     useEffect(() => {
@@ -215,8 +225,15 @@ const Recipe: React.FC = () => {
 
     return (
         <div className="containerRecipe">
+            {toastMessage && (
+                <Toast
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={() => setToastMessage('')}
+                />
+            )}
             <div className="recipe-header">
-                <h1>{recipe.name}</h1>
+                <h1 style={{color: "#ffffff"}}>{recipe.name}</h1>
                 <button className="btn save-btn-header" onClick={handleSaveToList}>
                     <img src={Floppy} alt="Save" /> Save To Recipe List
                 </button>
@@ -229,13 +246,13 @@ const Recipe: React.FC = () => {
 
                     <div className="recipe-author">
                         <div className="author-avatar"></div>
-                        <p className="author-name">Recipe By: User {recipe.user_id}</p>
+                        <p className="author-name">Recipe By: FoodCrafter</p>
                     </div>
                     <h4>Ingredients</h4>
                     <ul className="ingredients-list">
                         {recipe.ingredients.map((ingredient: any, index: number) => (
                             <li key={index}>
-                                {ingredient.amount} {ingredient.name} ({ingredient.category})
+                                {ingredient.amount} {ingredient.name} 
                             </li>
                         ))}
                     </ul>

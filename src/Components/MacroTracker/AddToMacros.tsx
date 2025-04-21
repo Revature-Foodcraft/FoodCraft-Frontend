@@ -1,7 +1,11 @@
 import React from 'react';
 import '../../css/AddToMacros.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Toast from '../toast';
+import { useState } from 'react';
 
+const [toastMessage, setToastMessage] = useState<string>('');
+const [toastType, setToastType] = useState<'success' | 'danger'>('success');
 
 interface MacroData {
     label: string;
@@ -27,12 +31,21 @@ const AddToMacros: React.FC<AddToMacrosProps> = ({
             onSubmit();
         } catch (error) {
             console.error("Error submitting macros:", error);
-            alert("Failed to add macros. Please try again.");
+            setToastMessage('Failed to add macros. Please try again.');
+            setToastType('danger');
+
         }
     };
 
     return (
         <div className="add-to-macros">
+            {toastMessage && (
+                <Toast
+                    message={toastMessage}
+                    type={toastType}
+                    onClose={() => setToastMessage('')}
+                />
+            )}
             <div className="macro-inputs-row">
                 {macros.map(macro => (
                     <div key={macro.label} className="macro-input">

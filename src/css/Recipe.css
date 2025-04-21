@@ -84,6 +84,11 @@ h1,h2{
     margin-top: 0; /* Remove unnecessary top margin */
     padding-top: 10px; /* Add slight padding if needed */
 }
+.recipeSuggestions a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 .suggestions-container {
     display: flex;
