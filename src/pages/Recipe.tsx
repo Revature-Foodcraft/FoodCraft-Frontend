@@ -187,7 +187,6 @@ const Recipe: React.FC = () => {
             });
     }, [reviews]);
 
-    // New function to fetch similar recipes
     const fetchSimilarRecipes = (category: string) => {
         fetch(`http://3.144.40.72:5000/recipes?category=${category}`)
             .then(response => response.json())
