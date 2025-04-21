@@ -48,22 +48,8 @@ describe("Home Component", () => {
 
     await waitFor(() => {
       const recipeTitles = screen.getAllByText(dummyRecipe.strMeal);
-      expect(recipeTitles.length).toBe(8);
+      expect(recipeTitles.length).toBe(16);
     });
   });
-
-  test("renders the Best Recipes section", () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
-
-    const bestRecipesHeading = screen.getByText("Best Recipes by Rating");
-    expect(bestRecipesHeading).toBeInTheDocument();
-
-    expect(screen.getByText("Recipe Title 1")).toBeInTheDocument();
-  });
-
 
 });

@@ -129,6 +129,12 @@ const Recipe: React.FC = () => {
                         fetchSimilarRecipes(meal.strCategory);
                     }
                 });
+                fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) setReviews(data.reviews);
+                })
+                .catch(err => console.error("Error fetching reviews:", err));
         } else {
             fetch(`http://3.144.40.72:5000/recipes/${id}`)
                 .then(response => response.json())
