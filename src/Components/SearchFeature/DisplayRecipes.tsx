@@ -4,6 +4,7 @@ import Fuse from "fuse.js";
 import { DisplayContext } from "../Contexts";
 import { Link } from "react-router-dom";
 import StarRating from "../StarRating";
+import imageNotFound from '../../assets/imageNotFound.jpg';
 
 interface SearchProp {
   searchQuery: string | null;
@@ -40,7 +41,6 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
       console.log(`Error: ${err}`);
     }
   };
-
   const getRecipesFromAPI = async () => {
     const searchParam = new URLSearchParams();
     let baseURL = 'https://www.themealdb.com/api/json/v1/1/filter.php';
@@ -80,6 +80,10 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
       console.log(err);
     }
   };
+  const getImageUrl = (image: any) => {
+    if (typeof image === 'string') return image;
+    if (image?.link) return image.link;
+    return imageNotFound};
 
   useEffect(() => {
     getRecipes();
@@ -137,8 +141,13 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
         }}
       >
         {currentRecipes.map((recipes) => {
-          const imageUrl = recipes?.images?.[0] || recipes?.pictures?.[0] || "https://via.placeholder.com/250x150.png?text=No+Image";
-
+          const rawImage = recipes?.images?.[0];
+          const imageUrl = 
+            (typeof rawImage === "string" && rawImage) ||
+            (rawImage?.M?.link?.S) ||
+            recipes?.pictures?.[0] ||
+            "https://via.placeholder.com/250x150.png?text=No+Image";
+          
           return (
             <div
               className="card"
@@ -153,8 +162,8 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
               }}
             >
               <img
-                src={imageUrl}
-                alt={recipes.name}
+                 src={getImageUrl(recipes.pictures?.[0] || recipes.pictures)}
+                 alt={recipes.name}
                 className="card-img-top"
                 style={{
                   height: "180px",
