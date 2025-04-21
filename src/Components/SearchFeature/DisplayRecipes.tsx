@@ -26,7 +26,7 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
         searchParam.append("category", mealCategory);
       }
 
-      const dbRes = await fetch(`http://localhost:5000/recipes?${searchParam.toString()}`, {
+      const dbRes = await fetch(`http://3.144.40.72:5000/recipes?${searchParam.toString()}`, {
         method: "GET",
       });
 
