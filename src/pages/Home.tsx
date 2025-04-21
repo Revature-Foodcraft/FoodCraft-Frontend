@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   const getFeaturedRecipes = async () => {
     try{
       const recipes = [];
-      for(let i = 0; i < 8; i++){
+      for(let i = 0; i < 16; i++){
         const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
         const json = await res.json();
         recipes.push(json.meals[0]);
@@ -81,21 +81,6 @@ const Home: React.FC = () => {
     ))}
   </div>
 </section>
-
-
-      <section className="bestRecipes mt-5">
-        <h2 className="mb-4">Best Recipes by Rating</h2>
-        <div className="row justify-content-center">
-          {[...Array(8)].map((_, index) => (
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={index}>
-              <div className="recipe-card h-100">
-                <div className="recipe-image-placeholder">Image</div>
-                <p className="recipe-title">Recipe Title {index + 1}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 };
