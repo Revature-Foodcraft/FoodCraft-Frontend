@@ -8,8 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchDropdownTabs from './SearchFeature/SearchDropdownTabs';
 import SortByDropdown from './SearchFeature/SortByDropdown';
 import logoPic from "../assets/logo.svg";
-import 'bootstrap/dist/css/bootstrap.min.css'; // ✅ still included globally
-
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 const Header: React.FC = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +36,10 @@ const Header: React.FC = () => {
             <header>
                 <div className='titleAndLogoWrapper'>
                     <img src={logoPic} alt="FoodCraft Logo" />
-                    <h1>FoodCraft</h1>
+                    <Link to="/" className="home-link">
+                        <h1>FoodCraft</h1>
+                    </Link>
+
                 </div>
                 <nav>
                     <ul>
@@ -54,8 +56,6 @@ const Header: React.FC = () => {
                     </ul>
                 </nav>
             </header>
-
-            {/* Custom Modal (No Bootstrap) */}
             {isModalOpen && (
                 <div className="custom-backdrop" onClick={closeModal}>
                     <div className="custom-modal-container" onClick={e => e.stopPropagation()}>

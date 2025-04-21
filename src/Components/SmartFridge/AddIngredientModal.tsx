@@ -53,7 +53,7 @@ function AddIngredientModal({ onSubmit, onCancel }: AddIngredientModalProps) {
         setSuggestionsLoading(true);
         try {
             const response = await fetch(
-                `http://localhost:5000/ingredients?search=${encodeURIComponent(query)}`,
+                `http://3.144.40.72:5000/ingredients?search=${encodeURIComponent(query)}`,
                 {
                     method: "GET",
                     headers: {

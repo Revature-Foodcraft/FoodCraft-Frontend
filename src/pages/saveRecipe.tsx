@@ -61,7 +61,7 @@ const CreateRecipe: React.FC = () => {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/s3/generate-upload-url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`);
+            const res = await fetch(`http://3.144.40.72:5000/s3/generate-upload-url?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`);
             const { uploadUrl, publicUrl } = await res.json();
             console.log("Signed upload URL:", uploadUrl);
 
@@ -106,7 +106,7 @@ const CreateRecipe: React.FC = () => {
         };
         console.log("Submitting recipe with picture URL:", recipeData.pictures[0]?.link);
         try {
-            const response = await fetch('http://localhost:5000/recipes/addRecipe', {
+            const response = await fetch('http://3.144.40.72:5000/recipes/addRecipe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

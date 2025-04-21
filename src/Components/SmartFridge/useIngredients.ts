@@ -10,7 +10,7 @@ const useIngredients = (token: string | null) => {
   const fetchIngredients = useCallback(async () => {
     try {
       if (!token) throw new Error("No token found");
-      const response = await fetch("http://localhost:5000/fridge/", {
+      const response = await fetch("http://3.144.40.72:5000/fridge/", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -40,7 +40,7 @@ const useIngredients = (token: string | null) => {
 
   const addIngredient = async ({ id, amount, category, name, unit }: { id: string; amount: number; category: string; name: string; unit: string }) => {
     try {
-      const response = await fetch("http://localhost:5000/fridge/", {
+      const response = await fetch("http://3.144.40.72:5000/fridge/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const useIngredients = (token: string | null) => {
 
   const updateIngredient = async (id: string, newAmount: number, newUnit: string) => {
     try {
-      const response = await fetch("http://localhost:5000/fridge/", {
+      const response = await fetch("http://3.144.40.72:5000/fridge/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const useIngredients = (token: string | null) => {
 
   const removeIngredient = async (id: string) => {
     try {
-      const response = await fetch("http://localhost:5000/fridge/", {
+      const response = await fetch("http://3.144.40.72:5000/fridge/", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
