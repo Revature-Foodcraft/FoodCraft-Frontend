@@ -139,19 +139,21 @@ const CreateRecipe: React.FC = () => {
             setToastMessage('An error occurred while creating the recipe.');
             setToastType('danger');
         }
+
+
     };
 
     return (
-        
+
         <div className="container mt-4 mb-5">
-             {toastMessage && (
+            {toastMessage && (
                 <Toast
                     message={toastMessage}
                     type={toastType}
                     onClose={() => setToastMessage('')}
                 />
             )}
-            
+
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h1 className="mb-0">Create Recipe</h1>
                 <button className="close-button" onClick={handleClose}>×</button>

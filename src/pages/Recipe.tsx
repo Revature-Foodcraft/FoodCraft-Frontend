@@ -129,7 +129,7 @@ const Recipe: React.FC = () => {
                         fetchSimilarRecipes(meal.strCategory);
                     }
                 });
-                fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
+            fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) setReviews(data.reviews);
@@ -238,7 +238,7 @@ const Recipe: React.FC = () => {
                 />
             )}
             <div className="recipe-header">
-                <h1 style={{color: "#ffffff"}}>{recipe.name}</h1>
+                <h1 style={{ color: "#ffffff" }}>{recipe.name}</h1>
                 <button className="btn save-btn-header" onClick={handleSaveToList}>
                     <img src={Floppy} alt="Save" /> Save To Recipe List
                 </button>
@@ -257,7 +257,7 @@ const Recipe: React.FC = () => {
                     <ul className="ingredients-list">
                         {recipe.ingredients.map((ingredient: any, index: number) => (
                             <li key={index}>
-                                {ingredient.amount} {ingredient.name} 
+                                {ingredient.amount} {ingredient.name}
                             </li>
                         ))}
                     </ul>
