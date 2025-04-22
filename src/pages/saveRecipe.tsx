@@ -262,7 +262,7 @@ const CreateRecipe: React.FC = () => {
                 </div>
             ))}
 
-            <button className="btn btn-outline-primary mb-4" onClick={handleAddIngredient}>
+            <button className="btn btn-outline-warning mb-4" onClick={handleAddIngredient}>
                 + Add Ingredient
             </button>
 

@@ -146,9 +146,11 @@ const SavedRecipes: React.FC = () => {
         })}
       </div>
 
-      <div className='row m-3' >
+      <div className='row m-3'>
         <Link to="saveRecipe">
-          <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
+          <div className="d-flex justify-content-center">
+            <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
+          </div>
         </Link>
       </div>
       <Outlet />
