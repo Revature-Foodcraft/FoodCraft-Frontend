@@ -122,10 +122,10 @@ const Recipe: React.FC = () => {
                             pictures: [{ link: meal.strMealThumb }],
                             youtube: meal.strYoutube,
                             user_id: "API",
-                            category: meal.strCategory || "Unknown" // You might need to adjust this depending on your data
+                            category: meal.strCategory || "Unknown"
                         });
 
-                        // Fetch similar recipes based on category
+                        
                         fetchSimilarRecipes(meal.strCategory);
                     }
                 });
@@ -140,7 +140,7 @@ const Recipe: React.FC = () => {
                 .then(response => response.json())
                 .then(data => {
                     setRecipe(data.recipe);
-                    fetchSimilarRecipes(data.recipe.category); // fetch similar recipes based on category
+                    fetchSimilarRecipes(data.recipe.category);
                 })
                 .catch(error => console.error("Error fetching recipe:", error));
 
@@ -154,7 +154,6 @@ const Recipe: React.FC = () => {
     }, [id]);
 
     useEffect(() => {
-        // once reviews are loaded, fetch all users in one go
         if (reviews.length === 0) {
             setEnrichedReviews([]);
             return;
@@ -165,14 +164,10 @@ const Recipe: React.FC = () => {
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return;
-
-                // 2) build a lookup map from userId → user object
                 const userMap: Record<string, User> = {};
                 data.users.forEach((u: User) => {
                     userMap[u.user_id] = u;
                 });
-
-                // 3) merge each review with its user info
                 const merged = reviews.map(r => {
                     const user = userMap[r.user_id];
                     return {
@@ -193,7 +188,7 @@ const Recipe: React.FC = () => {
             .then(data => {
                 if (data.recipes) {
                     setSimilarRecipes(data.recipes.map((recipe: any) => ({
-                        id: recipe.PK, // 👈 This is the actual ID!
+                        id: recipe.PK, 
                         name: recipe.name,
                         picture: recipe.pictures?.[0] || imageNotFound,
                         user_id: recipe.user_id
@@ -211,14 +206,12 @@ const Recipe: React.FC = () => {
         return <p>Loading recipe...</p>;
     }
 
-    // Determine image URL for main image
     const getImageUrl = (image: any) => {
         if (typeof image === 'string') return image;
         if (image?.link) return image.link;
         return imageNotFound;
     };
 
-    // Extract YouTube thumbnail
     const getYouTubeVideoId = (url: string) => {
         if (!url) return null;
         return url.split('v=')[1]?.split('&')[0];
