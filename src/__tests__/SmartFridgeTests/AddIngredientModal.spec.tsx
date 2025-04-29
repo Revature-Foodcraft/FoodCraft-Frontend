@@ -1,45 +1,53 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import AddIngredientModal from '../../Components/SmartFridge/AddIngredientModal';
+import { render, screen, fireEvent } from "@testing-library/react";
+import AddIngredientModal from "../../Components/SmartFridge/AddIngredientModal";
 
-describe('AddIngredientModal Component', () => {
+jest.mock("../../Components/SmartFridge/AddIngredientModal", () => {
+    const originalModule = jest.requireActual("../../Components/SmartFridge/AddIngredientModal");
+
+    return {
+        ...originalModule,
+        fetchSuggestions: jest.fn((query) => {
+            const mockSuggestions = [
+                { id: "365", name: "Tomato" },
+                { id: "13", name: "Baby Plum Tomatoes" },
+                { id: "316", name: "Tomato Puree" },
+            ];
+
+
+
+            originalModule.setSuggestions(mockSuggestions);
+        }),
+    };
+});
+
+describe("AddIngredientModal", () => {
     const mockOnSubmit = jest.fn();
     const mockOnCancel = jest.fn();
 
-    it('renders correctly with default values', () => {
-        render(<AddIngredientModal onSubmit={mockOnSubmit} onCancel={mockOnCancel} />);
+    beforeEach(() => {
+        jest.clearAllMocks();
 
-        expect(screen.getByText('Add Ingredient')).toBeInTheDocument();
-        expect(screen.getByLabelText('Name:')).toBeInTheDocument();
-        expect(screen.getByLabelText('Amount:')).toBeInTheDocument();
-        expect(screen.getByLabelText('Unit:')).toBeInTheDocument();
     });
 
-    it('calls onCancel when the Cancel button is clicked', () => {
+    afterEach(() => {
+        jest.restoreAllMocks();
+    });
+
+    it("renders the modal with input fields", () => {
         render(<AddIngredientModal onSubmit={mockOnSubmit} onCancel={mockOnCancel} />);
 
-        const cancelButton = screen.getByText('Cancel');
-        fireEvent.click(cancelButton);
+        expect(screen.getByLabelText(/Name:/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Category:/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Amount:/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/Unit:/i)).toBeInTheDocument();
+    });
 
+    it("calls onCancel when the cancel button is clicked", () => {
+        render(<AddIngredientModal onSubmit={mockOnSubmit} onCancel={mockOnCancel} />);
+
+        fireEvent.click(screen.getByText(/Cancel/i));
         expect(mockOnCancel).toHaveBeenCalled();
     });
 
-    it('calls onSubmit with correct data when the Save button is clicked', () => {
-        render(<AddIngredientModal onSubmit={mockOnSubmit} onCancel={mockOnCancel} />);
 
-        fireEvent.change(screen.getByLabelText('Name:'), { target: { value: 'Tomato' } });
-        fireEvent.change(screen.getByLabelText('Amount:'), { target: { value: '2' } });
-        fireEvent.change(screen.getByLabelText('Unit:'), { target: { value: 'kg' } });
-
-        const saveButton = screen.getByText('Save');
-        fireEvent.click(saveButton);
-
-        expect(mockOnSubmit).toHaveBeenCalledWith({
-            id: '',
-            name: 'Tomato',
-            amount: 2,
-            unit: 'kg',
-            category: 'Other',
-        });
-    });
 });

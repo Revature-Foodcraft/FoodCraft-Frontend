@@ -1,45 +1,59 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter, useNavigate } from 'react-router-dom';
 import RecipeCard from '../../Components/SavedRecipes/RecipeCard';
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+}));
+
 describe('RecipeCard Component', () => {
+    const mockNavigate = jest.fn();
+    beforeEach(() => {
+        (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+    });
+
     const mockProps = {
         id: '1',
         title: 'Test Recipe',
         author: 'Test Author',
-        description: 'This is a test description.',
+        description: 'Test Description',
         onDelete: jest.fn(),
     };
 
-    it('renders correctly with given props', () => {
-        render(<RecipeCard {...mockProps} />);
+    it('renders the RecipeCard component with correct props', () => {
+        render(
+            <MemoryRouter>
+                <RecipeCard {...mockProps} />
+            </MemoryRouter>
+        );
 
         expect(screen.getByText('Test Recipe')).toBeInTheDocument();
         expect(screen.getByText('By: Test Author')).toBeInTheDocument();
-        expect(screen.getByText('This is a test description.')).toBeInTheDocument();
+        expect(screen.getByText('Test Description')).toBeInTheDocument();
     });
 
-    it('calls onDelete when the delete button is clicked', () => {
-        render(<RecipeCard {...mockProps} />);
+    it('navigates to the correct route when clicked', () => {
+        render(
+            <MemoryRouter>
+                <RecipeCard {...mockProps} />
+            </MemoryRouter>
+        );
 
-        const deleteButton = screen.getByRole('button', { name: /delete/i });
-        fireEvent.click(deleteButton);
+        fireEvent.click(screen.getByText('By: Test Author'));
+        expect(mockNavigate).toHaveBeenCalledWith('/recipe/db/1');
+    });
+
+    it('calls onDelete when delete button is clicked', () => {
+        render(
+            <MemoryRouter>
+                <RecipeCard {...mockProps} />
+            </MemoryRouter>
+        );
+
+        fireEvent.click(screen.getByRole('button', { name: "🗑" }));
 
         expect(mockProps.onDelete).toHaveBeenCalled();
-    });
-
-    it('navigates to the recipe details page when clicked', () => {
-        const mockNavigate = jest.fn();
-        jest.mock('react-router-dom', () => ({
-            ...jest.requireActual('react-router-dom'),
-            useNavigate: () => mockNavigate,
-        }));
-
-        render(<RecipeCard {...mockProps} />);
-
-        const card = screen.getByText('Test Recipe');
-        fireEvent.click(card);
-
-        expect(mockNavigate).toHaveBeenCalledWith('/recipes/1');
     });
 });

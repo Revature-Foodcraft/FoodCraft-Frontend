@@ -124,10 +124,11 @@ const Recipe: React.FC = () => {
                             category: meal.strCategory || "Unknown"
                         });
 
+                        
                         fetchSimilarRecipes(meal.strCategory);
                     }
                 });
-                fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
+            fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) setReviews(data.reviews);
@@ -162,12 +163,10 @@ const Recipe: React.FC = () => {
             .then(res => res.json())
             .then(data => {
                 if (!data.success) return;
-
                 const userMap: Record<string, User> = {};
                 data.users.forEach((u: User) => {
                     userMap[u.user_id] = u;
                 });
-
                 const merged = reviews.map(r => {
                     const user = userMap[r.user_id];
                     return {
@@ -188,7 +187,7 @@ const Recipe: React.FC = () => {
             .then(data => {
                 if (data.recipes) {
                     setSimilarRecipes(data.recipes.map((recipe: any) => ({
-                        id: recipe.PK,
+                        id: recipe.PK, 
                         name: recipe.name,
                         picture: recipe.pictures?.[0] || imageNotFound,
                         user_id: recipe.user_id
@@ -225,7 +224,7 @@ const Recipe: React.FC = () => {
                 />
             )}
             <div className="recipe-header">
-                <h1 style={{color: "#ffffff"}}>{recipe.name}</h1>
+                <h1 style={{ color: "#ffffff" }}>{recipe.name}</h1>
                 <button className="btn save-btn-header" onClick={handleSaveToList}>
                     <img src={Floppy} alt="Save" /> Save To Recipe List
                 </button>
@@ -243,7 +242,7 @@ const Recipe: React.FC = () => {
                     <ul className="ingredients-list">
                         {recipe.ingredients.map((ingredient: any, index: number) => (
                             <li key={index}>
-                                {ingredient.amount} {ingredient.name} 
+                                {ingredient.amount} {ingredient.name}
                             </li>
                         ))}
                     </ul>

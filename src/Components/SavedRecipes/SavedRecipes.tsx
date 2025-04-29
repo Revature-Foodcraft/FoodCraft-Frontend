@@ -112,7 +112,8 @@ const SavedRecipes: React.FC = () => {
           <p>Loading recipes...</p>
         </div>
       )}
-      {error && (
+
+      {!loading && recipes.length === 0 && (
         <div className='row'>
           <p className='text-secondary'>
             Oops! Looks like you haven't saved any recipes yet. Start building your collection now!
@@ -145,9 +146,11 @@ const SavedRecipes: React.FC = () => {
         })}
       </div>
 
-      <div className='row m-3' >
+      <div className='row m-3'>
         <Link to="saveRecipe">
-          <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
+          <div className="d-flex justify-content-center">
+            <button className='btn btn-warning btn-lg rounded-pill shadow-sm btn-custom'>Create new recipe</button>
+          </div>
         </Link>
       </div>
       <Outlet />

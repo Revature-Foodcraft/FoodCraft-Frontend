@@ -1,31 +1,43 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import SavedRecipes from '../../Components/SavedRecipes/SavedRecipes';
-import { MemoryRouter } from 'react-router-dom';
-
-global.fetch = jest.fn();
 
 describe('SavedRecipes Component', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        localStorage.setItem('token', 'test-token');
+        global.fetch = jest.fn();
+    });
+
+    afterEach(() => {
+        localStorage.clear();
+        jest.restoreAllMocks();
     });
 
     it('renders loading state initially', () => {
-        (fetch as jest.Mock).mockResolvedValueOnce({
-            ok: true,
-            json: async () => ({ recipes: [] }),
-        });
-
         render(
-            <MemoryRouter>
+            <BrowserRouter>
                 <SavedRecipes />
-            </MemoryRouter>
+            </BrowserRouter>
         );
 
         expect(screen.getByText('Loading recipes...')).toBeInTheDocument();
     });
 
-    it('renders recipes when fetched successfully', async () => {
+    it('renders error message when fetch fails', async () => {
+        (fetch as jest.Mock).mockRejectedValueOnce(new Error('Failed to fetch'));
+
+        render(
+            <BrowserRouter>
+                <SavedRecipes />
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByText((content) => content.includes("Oops! Looks like you haven't saved any recipes yet. Start building your collection now!"))).toBeInTheDocument();
+        });
+    });
+
+    it('renders recipes when fetch is successful', async () => {
         const mockRecipes = [
             { PK: '1', name: 'Recipe 1', user_id: 'User 1', description: 'Description 1' },
             { PK: '2', name: 'Recipe 2', user_id: 'User 2', description: 'Description 2' },
@@ -37,28 +49,99 @@ describe('SavedRecipes Component', () => {
         });
 
         render(
-            <MemoryRouter>
+            <BrowserRouter>
                 <SavedRecipes />
-            </MemoryRouter>
+            </BrowserRouter>
         );
 
-        await waitFor(() => expect(screen.getByText('Recipe 1')).toBeInTheDocument());
-        expect(screen.getByText('Recipe 2')).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText('Recipe 1')).toBeInTheDocument();
+            expect(screen.getByText('Recipe 2')).toBeInTheDocument();
+        });
     });
 
-    it('handles errors during fetch', async () => {
-        (fetch as jest.Mock).mockRejectedValueOnce(new Error('Failed to fetch'));
+    it('handles delete recipe functionality', async () => {
+        const mockRecipes = [
+            { PK: '1', name: 'Recipe 1', user_id: 'User 1', description: 'Description 1' },
+        ];
+
+        (fetch as jest.Mock)
+            .mockResolvedValueOnce({
+                ok: true,
+                json: async () => ({ recipes: mockRecipes }),
+            }) // Initial fetch
+            .mockResolvedValueOnce({ ok: true }); // Delete request
 
         render(
-            <MemoryRouter>
+            <BrowserRouter>
                 <SavedRecipes />
-            </MemoryRouter>
+            </BrowserRouter>
         );
 
-        await waitFor(() => expect(screen.getByText(/Failed to load recipes/i)).toBeInTheDocument());
+        await waitFor(() => {
+            expect(screen.getByText('Recipe 1')).toBeInTheDocument();
+        });
+
+        const deleteButton = screen.getByRole('button', { name: /🗑/ });
+        fireEvent.click(deleteButton);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Recipe 1')).not.toBeInTheDocument();
+        });
     });
 
-    it('deletes a recipe when delete button is clicked', async () => {
+    it('renders empty state when no recipes are available', async () => {
+        (fetch as jest.Mock).mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ recipes: [] }),
+        });
+
+        render(
+            <BrowserRouter>
+                <SavedRecipes />
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Oops! Looks like you haven't saved any recipes yet. Start building your collection now!")
+            ).toBeInTheDocument();
+        });
+    });
+
+    it('renders error when token is missing', async () => {
+        localStorage.removeItem('token');
+
+        render(
+            <BrowserRouter>
+                <SavedRecipes />
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Oops! Looks like you haven't saved any recipes yet. Start building your collection now!")
+            ).toBeInTheDocument();
+        });
+    });
+
+    it('handles fetch response not ok', async () => {
+        (fetch as jest.Mock).mockResolvedValueOnce({ ok: false });
+
+        render(
+            <BrowserRouter>
+                <SavedRecipes />
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Oops! Looks like you haven't saved any recipes yet. Start building your collection now!")
+            ).toBeInTheDocument();
+        });
+    });
+
+    it('renders specific UI elements', async () => {
         const mockRecipes = [
             { PK: '1', name: 'Recipe 1', user_id: 'User 1', description: 'Description 1' },
         ];
@@ -69,18 +152,14 @@ describe('SavedRecipes Component', () => {
         });
 
         render(
-            <MemoryRouter>
+            <BrowserRouter>
                 <SavedRecipes />
-            </MemoryRouter>
+            </BrowserRouter>
         );
 
-        await waitFor(() => expect(screen.getByText('Recipe 1')).toBeInTheDocument());
-
-        (fetch as jest.Mock).mockResolvedValueOnce({ ok: true });
-
-        const deleteButton = screen.getByRole('button', { name: /delete/i });
-        fireEvent.click(deleteButton);
-
-        await waitFor(() => expect(screen.queryByText('Recipe 1')).not.toBeInTheDocument());
+        await waitFor(() => {
+            expect(screen.getByText('Recipe 1')).toBeInTheDocument();
+            expect(screen.getByRole('button', { name: /🗑/ })).toBeInTheDocument();
+        });
     });
 });
