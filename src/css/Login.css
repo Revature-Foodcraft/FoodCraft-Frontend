@@ -1,16 +1,14 @@
-/* Full-page container to center content */
 .login-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100vw;
-  background: rgba(245, 245, 220, 0.7); /* Beige tint */
+  background: rgba(245, 245, 220, 0.7);
   position: relative;
   overflow: hidden;
 }
 
-/* Background Video */
 .background-video {
   position: absolute;
   top: 0;
@@ -21,63 +19,57 @@
   z-index: -1;
 }
 
-/* Login box */
 .login-box {
-  all:unset;
+  all: unset;
   background: rgba(255, 255, 255, 0.9);
   padding: 2.5rem;
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   width: 400px;
   text-align: center;
-  border: 2px solid #8B4513; /* Brown border */
+  border: 2px solid #8B4513;
   z-index: 1;
 }
 
-/* Logo */
 .logo {
   width: 400px;
   height: 200px;
   margin: 0 auto 1rem auto;
-  border-radius: 10px; /* Smooth the borders */
+  border-radius: 10px;
 }
 
-/* Form Labels */
 .login-box label {
   display: block;
   text-align: left;
   font-weight: 600;
-  color: #5A3E1B; /* Dark brown */
+  color: #5A3E1B;
   margin-bottom: 5px;
 }
 
-/* Input fields */
 .input-field {
   width: 95%;
   padding: 10px;
-  border: 1px solid #8B4513; /* Brown border */
+  border: 1px solid #8B4513;
   border-radius: 5px;
   outline: none;
-  background: white; /* Set input fields to white */
-  color: black; /* Ensure typed text is black */
+  background: white;
+  color: black;
   transition: border 0.3s ease-in-out;
 }
 
 .input-field:focus {
-  border-color: #A0522D; /* Lighter brown */
+  border-color: #A0522D;
   box-shadow: 0 0 5px rgba(160, 82, 45, 0.5);
 }
 
-/* Button Container */
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 25px; /* Increased space between password field and buttons */
+  margin-top: 25px;
 }
 
-/* Submit and Register buttons */
 .login-box button {
-  background: #000000; /* Black */
+  background: #000000;
   color: white;
   padding: 10px;
   width: 48%;
@@ -89,18 +81,21 @@
 }
 
 .login-box button:hover {
-  background: #A0522D; /* Lighter brown */
+  background: #A0522D;
 }
 
 .register-button {
-  background: #5A3E1B; /* Dark brown */
+  background: #5A3E1B;
 }
+
 #loginWords {
   color: #050505;
 }
+
 .input-field:first-of-type {
-  margin-bottom: 20px; /* Adjust the spacing */
+  margin-bottom: 20px;
 }
+
 .button-container {
   display: flex;
   justify-content: space-between;
@@ -109,7 +104,7 @@
 }
 
 .auth-button {
-  background: #000000; /* Black */
+  background: #000000;
   color: white;
   padding: 10px;
   width: 48%;
@@ -122,7 +117,7 @@
 }
 
 .auth-button:hover {
-  background: #A0522D; /* Lighter brown */
+  background: #A0522D;
 }
 
 .auth-button-link {
@@ -134,4 +129,3 @@
 .auth-button-link button {
   width: 100%;
 }
-

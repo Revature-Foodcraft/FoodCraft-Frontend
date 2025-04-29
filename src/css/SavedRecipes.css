@@ -2,7 +2,7 @@
   max-height: 430px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 15px; /* A bit more spacing inside */
+  padding: 15px; 
   margin: 0 auto;
 }
 
@@ -75,7 +75,7 @@
   color: #666;
 }
 .heavy-cross {
-  font-size: 24px; /* Adjust size */
-  color: #8b4513; /* A deep brown tone */
+  font-size: 24px; 
+  color: #8b4513; 
   font-weight: bold;
 }

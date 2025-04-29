@@ -13,7 +13,6 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
     background: white;
     margin: 0 auto;
     padding: 20px;
@@ -21,7 +20,6 @@ html, body {
     width: 100%;
     background-color: #dda663ee;
 }
-
 
 .recipe-layout {
     display: flex;
@@ -31,8 +29,6 @@ html, body {
     width: 100%;
     align-items: flex-start;
 }
-
-
 
 .ingredients-instructions {
     flex: 2;
@@ -51,7 +47,6 @@ html, body {
     flex: 1;
 }
 
-
 .middle-top,
 .middle-bottom {
     background-color: #ffffffe7;
@@ -61,19 +56,21 @@ html, body {
     width: 100%;
     box-sizing: border-box;
 }
+
 .middle-bottom iframe {
     width: 100%;
     height: 100%;
     border-radius: 10px;
 }
-h1,h2{
+
+h1, h2 {
     color: #ffffff;
 }
 
 .food-image {
     flex: 1;
     max-width: 600px;
-    height: 510px; /* Match combined height of top + bottom */
+    height: 510px;
     background-color: #ffffffe7;
     padding: 20px;
     border-radius: 10px;
@@ -81,14 +78,14 @@ h1,h2{
 }
 
 .recipeSuggestions {
-    margin-top: 0; /* Remove unnecessary top margin */
-    padding-top: 10px; /* Add slight padding if needed */
+    margin-top: 0;
+    padding-top: 10px;
 }
+
 .recipeSuggestions a {
     text-decoration: none;
     color: inherit;
 }
-
 
 .suggestions-container {
     display: flex;
@@ -98,10 +95,9 @@ h1,h2{
     padding: 10px 0;
 }
 
-
 .suggestion-box {
-    width: 180px; /* Adjust width as needed */
-    height: 220px; /* Adjust height as needed */
+    width: 180px;
+    height: 220px;
     background-color: #ffffff;
     border-radius: 10px;
     overflow: hidden;
@@ -114,33 +110,38 @@ h1,h2{
 
 .suggestion-box img {
     width: 100%;
-    height: 80%; /* Adjust height to fit well */
-    object-fit: cover; /* Ensures image scales while maintaining aspect ratio */
+    height: 80%;
+    object-fit: cover;
     border-radius: 8px;
 }
+
 .food-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 .suggestion-box p {
     margin-top: 5px;
     font-size: 14px;
     font-weight: bold;
 }
 
-h1,h2{
+h1, h2 {
     text-align: center;
 }
-h1{
+
+h1 {
     padding-top: 20px;
 }
-h2{
+
+h2 {
     padding-bottom: 10px;
 }
+
 .recipe-author {
     display: flex;
-    align-items: center; /* Align name with the bottom of the avatar */
+    align-items: center;
     gap: 10px;
     margin: 10px 0;
 }
@@ -149,8 +150,8 @@ h2{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ccc; /* Placeholder color */
-    background-image: url('../assets/boy.png'); /* Replace with actual avatar image */
+    background-color: #ccc;
+    background-image: url('../assets/boy.png');
     background-size: cover;
     background-position: center;
 }
@@ -158,82 +159,33 @@ h2{
 .author-name {
     font-size: 14px;
     font-weight: bold;
-    line-height: 1; /* Prevent extra spacing */
-}
-
-/*.review-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    height: 100%;
-}
-
-.review-header {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-}
-
-.review-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #ccc; 
-    background-image: url('../assets/avatar.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.review-author {
-    font-size: 12px;
-    font-weight: bold;
     line-height: 1;
 }
-
-.review-text {
-    font-size: 14px;
-    margin-top: 5px;
-    color: #444;
-}
-
-.review-stars {
-    align-self: flex-end;
-    font-size: 16px;
-    color: #FFD700;
-}*/
 
 .middle-top {
     display: flex;
     flex-direction: column;
-    max-height: 390px;    /* whatever height you need */
-    overflow: scroll;       /* makes this the scroll container */
+    max-height: 390px;
+    overflow: scroll;
     position: relative;
-  
-    /* ensure children don’t stretch full‑width by default */
     align-items: flex-start;
-  }
-  
-  /* let the button hug its content and float right */
-  .add-review-btn {
-    align-self: flex-end;  /* push it to the right edge */
+}
+
+.add-review-btn {
+    align-self: flex-end;
     background: #8B4513;
     color: #fff;
     cursor: pointer;
     border: none;
     border-radius: 12px;
     font-weight: bold;
-  }
-  
-  /* scrollable list of cards stays the same */
-  .review-card-div {
+}
+
+.review-card-div {
     flex: 1 1 auto;
     overflow-y: auto;
     padding-right: 0.5rem;
-  }
+}
 
 .youtube-thumbnail {
     margin-top: 10px;
@@ -258,12 +210,14 @@ h2{
         padding: 15px;
     }
 }
+
 .side-content-wrapper {
     display: flex;
     flex-direction: row;
     gap: 20px;
     flex: 1;
-  }
+}
+
 @media screen and (max-width: 768px) {
     .side-content-wrapper {
         flex-direction: column;
@@ -271,8 +225,6 @@ h2{
         gap: 20px;
     }
 }
-
-  
 
 @media screen and (max-width: 768px) {
     .suggestions-container {
@@ -286,24 +238,27 @@ h2{
         height: auto;
     }
 }
+
 .recipe-header {
     position: relative;
     text-align: center;
     padding: 2rem 1rem;
-    background-color: #fff3e07e; /* soft culinary background tone */
+    background-color: #fff3e07e;
     border-radius: 12px;
     margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-h1{
+
+h1 {
     font-size: 3.0rem;
 }
+
 .recipe-title {
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
     color: #000000;
-    font-family: '"Rockwell", "Georgia", serif'
+    font-family: '"Rockwell", "Georgia", serif';
 }
 
 .save-btn-header {
@@ -324,6 +279,7 @@ h1{
     transition: background-color 0.3s ease;
     z-index: 5;
 }
+
 @media screen and (max-width: 768px) {
     .save-btn-header {
         position: static;
@@ -335,7 +291,7 @@ h1{
 
     .recipe-header {
         text-align: center;
-        padding-bottom: 3rem; /* create some breathing room */
+        padding-bottom: 3rem;
     }
 
     .recipe-header h1 {
@@ -343,7 +299,6 @@ h1{
         padding: 0.5rem;
     }
 }
-
 
 .save-btn-header:hover {
     background-color: #f4511e;
@@ -353,96 +308,96 @@ h1{
     width: 16px;
     height: 16px;
 }
+
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
-  }
-  
-  /* the white pop‑up box */
-  .modal-content {
+}
+
+.modal-content {
     background: #fff;
     padding: 1.5rem;
     border-radius: 8px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  }
-  
-  /* textarea and select styling */
-  .modal-content textarea {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content textarea {
     width: 100%;
     min-height: 80px;
     margin-bottom: 0.75rem;
     padding: 0.5rem;
     resize: vertical;
-  }
-  
-  .modal-content select {
+}
+
+.modal-content select {
     margin-left: 0.5rem;
     padding: 0.25rem;
-  }
-  
-  /* buttons in the modal */
-  .modal-buttons {
+}
+
+.modal-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
     margin-top: 1rem;
-  }
-  
-  .modal-buttons button {
+}
+
+.modal-buttons button {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .modal-buttons button:first-child {
+}
+
+.modal-buttons button:first-child {
     background-color: #28a745;
     color: white;
-  }
-  
-  .modal-buttons button:last-child {
+}
+
+.modal-buttons button:last-child {
     background: transparent;
     color: #333;
-  }
-  
-  /* keep your existing scrollable setup */
-  .middle-top {
+}
+
+.middle-top {
     display: flex;
     flex-direction: column;
     max-height: 300px;
     overflow: hidden;
     position: relative;
-  }
-  
-  .review-card-div {
+}
+
+.review-card-div {
     flex: 1 1 auto;
     overflow-y: auto;
     padding: 0.5rem;
-  }
-  
-  .add-review-div {
+}
+
+.add-review-div {
     padding: 0.5rem;
     display: flex;
     justify-content: flex-end;
-  }
-  
-  .add-review-btn {
+}
+
+.add-review-btn {
     background: #8B4513;
     border: none;
     color: #fff;
     cursor: pointer;
     padding: 0.5rem 1rem;
     border-radius: 12px;
-  }
-  @media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 768px) {
     .recipe-layout {
         flex-direction: column;
         align-items: center;

@@ -1,7 +1,6 @@
-/* Custom card styling */
 .custom-card {
   position: relative;
-  background-color: #fff7eb; /* Light beige background */
+  background-color: #fff7eb;
   border: none;
   border-radius: 10px;
   padding: 20px 25px;
@@ -17,7 +16,6 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Title styling */
 .card-title {
   font-size: 22px;
   font-weight: bold;
@@ -25,21 +23,18 @@
   margin: 0 0 5px;
 }
 
-/* Author text styling */
 .card-text {
   font-size: 16px;
   color: #666666;
   margin-bottom: 5px;
 }
 
-/* Additional description text styling */
 .card-description {
   font-size: 15px;
   color: #666666;
   margin-top: 8px;
 }
 
-/* Delete button styling */
 .delete-btn {
   background: transparent;
   border: none;
@@ -55,19 +50,16 @@
   transform: scale(1.1);
 }
 
-/* Accordion body styling */
-/* We set the background to match the custom-card's background for visual consistency */
 .accordion-body {
   background-color: white;
-  position: relative; /* For the delete button's absolute positioning */
-  padding: 15px 70px 15px 15px; /* Extra right padding for delete button */
-  border-top: 1px solid #ffdba5; /* Optional subtle border line */
+  position: relative;
+  padding: 15px 70px 15px 15px;
+  border-top: 1px solid #ffdba5;
 }
 
-/* Place the delete button inside the accordion body */
 .accordion-body .delete-btn {
   position: absolute;
-  top: 50%; /* Vertically centered */
-  right: 20px; /* Space from the right edge */
+  top: 50%;
+  right: 20px;
   transform: translateY(-50%);
 }

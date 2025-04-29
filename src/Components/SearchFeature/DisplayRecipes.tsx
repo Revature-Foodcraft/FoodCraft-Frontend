@@ -41,6 +41,7 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
       console.log(`Error: ${err}`);
     }
   };
+
   const getRecipesFromAPI = async () => {
     const searchParam = new URLSearchParams();
     let baseURL = 'https://www.themealdb.com/api/json/v1/1/filter.php';
@@ -80,10 +81,12 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
       console.log(err);
     }
   };
+
   const getImageUrl = (image: any) => {
     if (typeof image === 'string') return image;
     if (image?.link) return image.link;
-    return imageNotFound};
+    return imageNotFound;
+  };
 
   useEffect(() => {
     getRecipes();
@@ -142,12 +145,12 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
       >
         {currentRecipes.map((recipes) => {
           const rawImage = recipes?.images?.[0];
-          const imageUrl = 
+          const imageUrl =
             (typeof rawImage === "string" && rawImage) ||
             (rawImage?.M?.link?.S) ||
             recipes?.pictures?.[0] ||
             "https://via.placeholder.com/250x150.png?text=No+Image";
-          
+
           return (
             <div
               className="card"
@@ -162,8 +165,8 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
               }}
             >
               <img
-                 src={getImageUrl(recipes.pictures?.[0] || recipes.pictures)}
-                 alt={recipes.name}
+                src={getImageUrl(recipes.pictures?.[0] || recipes.pictures)}
+                alt={recipes.name}
                 className="card-img-top"
                 style={{
                   height: "180px",
@@ -221,12 +224,19 @@ const DisplayRecipe: React.FC<SearchProp> = ({ searchQuery }) => {
         })}
       </div>
 
-      <div className="d-flex justify-content-center align-content-center" style={{ position: "absolute", width: "100%", background: "inherit" }}>
+      <div
+        className="d-flex justify-content-center align-content-center"
+        style={{ position: "absolute", width: "100%", background: "inherit" }}
+      >
         <Pagination className="m-1">
           <Pagination.First onClick={() => handlePageChange(1)} />
           <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} />
           {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item key={index + 1} active={currentPage === index + 1} onClick={() => handlePageChange(index + 1)}>
+            <Pagination.Item
+              key={index + 1}
+              active={currentPage === index + 1}
+              onClick={() => handlePageChange(index + 1)}
+            >
               {index + 1}
             </Pagination.Item>
           ))}

@@ -1,15 +1,11 @@
-/* src/styles/Reviews.css */
-
-/* Overall page styling */
 .reviews-page {
   padding: 1rem;
-  background-color: rgba(245, 245, 220, 0.7); /* Beige tint, similar to your overlay */
+  background-color: rgba(245, 245, 220, 0.7);
   min-height: 100vh;
   font-family: Arial, sans-serif;
   color: #333;
 }
 
-/* Title styling */
 .reviews-page h2 {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -18,28 +14,27 @@
   color: #333;
 }
 
-/* Grid container for review cards */
 .review-cards-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   justify-items: center;
 }
 
-/* Review card styling */
 .review-card {
   width: 28rem;
   background-color: rgba(255, 255, 255, 0.9);
-  border: 2px solid #8B4513; /* Brown border */
+  border: 2px solid #8B4513;
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .review-card-header {
   display: flex;
   align-items: center;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .review-card:hover {
@@ -47,13 +42,11 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Container to arrange picture and details side by side */
 .review-card-container {
   display: flex;
   align-items: center;
 }
 
-/* Reviewer picture styling */
 .reviewer-picture {
   width: 100px;
   height: 100px;
@@ -62,7 +55,6 @@
   border: 2px solid #8B4513;
 }
 
-/* Review details container (text elements) */
 .review-details {
   margin-left: 1rem;
   text-align: left;
@@ -75,7 +67,6 @@
   color: #333;
 }
 
-/* Review rating styling */
 .review-rating {
   display: flex;
   align-items: center;
@@ -88,14 +79,12 @@
   color: #222;
 }
 
-/* Review description styling */
 .review-description {
   font-size: 1rem;
   color: #555;
   margin-top: 0.5rem;
 }
 
-/* Pagination styling */
 .pagination {
   display: flex;
   justify-content: center;

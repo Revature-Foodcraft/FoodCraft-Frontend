@@ -77,8 +77,8 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   width: 100%;
-  max-width: 1300px; /* match slideshow width */
-  margin: 0 auto; /* center it */
+  max-width: 1300px; 
+  margin: 0 auto; 
 }
 
 .recipe-card {

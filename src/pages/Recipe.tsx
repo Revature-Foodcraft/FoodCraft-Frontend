@@ -56,7 +56,6 @@ const Recipe: React.FC = () => {
             });
             const json = await res.json();
             if (json.success) {
-                // reload reviews
                 const updated = await fetch(`http://3.144.40.72:5000/recipes/${id}/reviews`).then(r => r.json());
                 if (updated.success) setReviews(updated.reviews);
                 closeModal();
@@ -122,10 +121,9 @@ const Recipe: React.FC = () => {
                             pictures: [{ link: meal.strMealThumb }],
                             youtube: meal.strYoutube,
                             user_id: "API",
-                            category: meal.strCategory || "Unknown" // You might need to adjust this depending on your data
+                            category: meal.strCategory || "Unknown"
                         });
 
-                        // Fetch similar recipes based on category
                         fetchSimilarRecipes(meal.strCategory);
                     }
                 });
@@ -140,7 +138,7 @@ const Recipe: React.FC = () => {
                 .then(response => response.json())
                 .then(data => {
                     setRecipe(data.recipe);
-                    fetchSimilarRecipes(data.recipe.category); // fetch similar recipes based on category
+                    fetchSimilarRecipes(data.recipe.category);
                 })
                 .catch(error => console.error("Error fetching recipe:", error));
 
@@ -154,7 +152,6 @@ const Recipe: React.FC = () => {
     }, [id]);
 
     useEffect(() => {
-        // once reviews are loaded, fetch all users in one go
         if (reviews.length === 0) {
             setEnrichedReviews([]);
             return;
@@ -166,13 +163,11 @@ const Recipe: React.FC = () => {
             .then(data => {
                 if (!data.success) return;
 
-                // 2) build a lookup map from userId → user object
                 const userMap: Record<string, User> = {};
                 data.users.forEach((u: User) => {
                     userMap[u.user_id] = u;
                 });
 
-                // 3) merge each review with its user info
                 const merged = reviews.map(r => {
                     const user = userMap[r.user_id];
                     return {
@@ -193,40 +188,32 @@ const Recipe: React.FC = () => {
             .then(data => {
                 if (data.recipes) {
                     setSimilarRecipes(data.recipes.map((recipe: any) => ({
-                        id: recipe.PK, // 👈 This is the actual ID!
+                        id: recipe.PK,
                         name: recipe.name,
                         picture: recipe.pictures?.[0] || imageNotFound,
                         user_id: recipe.user_id
                     })));
-
-
                 }
             })
             .catch(error => console.error("Error fetching similar recipes:", error));
     };
 
-
-
     if (!recipe) {
         return <p>Loading recipe...</p>;
     }
 
-    // Determine image URL for main image
     const getImageUrl = (image: any) => {
         if (typeof image === 'string') return image;
         if (image?.link) return image.link;
         return imageNotFound;
     };
 
-    // Extract YouTube thumbnail
     const getYouTubeVideoId = (url: string) => {
         if (!url) return null;
         return url.split('v=')[1]?.split('&')[0];
     };
 
-
     const youtubeVideoId = getYouTubeVideoId(recipe.youtube);
-
 
     return (
         <div className="containerRecipe">
@@ -243,7 +230,6 @@ const Recipe: React.FC = () => {
                     <img src={Floppy} alt="Save" /> Save To Recipe List
                 </button>
             </div>
-
 
             <div className="recipe-layout">
                 <div className="ingredients-instructions">
@@ -276,19 +262,8 @@ const Recipe: React.FC = () => {
                     </div>
                 </div>
 
-                {/* NEW WRAPPER for side content */}
                 <div className="side-content-wrapper">
                     <div className="middle-section">
-                        {/*<div className="middle-top">
-                            <div className="review-box">
-                                <div className="review-header">
-                                    <div className="review-avatar"></div>
-                                    <p className="review-author">Recipe By: Foodcrafter</p>
-                                </div>
-                                <p className="review-text">"This recipe was amazing! The flavors were perfect."</p>
-                                <div className="review-stars">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>*/}
                         <div className="middle-top">
                             <div>
                                 <button className="add-review-btn" onClick={openModal}>Add Review</button>
@@ -309,7 +284,7 @@ const Recipe: React.FC = () => {
                                 <div className="modal-overlay" onClick={closeModal}>
                                     <div
                                         className="modal-content"
-                                        onClick={e => e.stopPropagation() /* prevent closing when clicking inside */}
+                                        onClick={e => e.stopPropagation()}
                                     >
                                         <h3>Add a Review</h3>
                                         <textarea
@@ -335,9 +310,7 @@ const Recipe: React.FC = () => {
                                     </div>
                                 </div>
                             )}
-
                         </div>
-
 
                         <div className="middle-bottom">
                             {youtubeVideoId ? (
@@ -391,10 +364,6 @@ const Recipe: React.FC = () => {
                     )}
                 </div>
             </div>
-
-
-
-
         </div>
     );
 };
